@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Setting up Linux for Python and this class &mdash; Code Fellows F2 Python, March-April 2015</title>
+    
+    <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Code Fellows F2 Python, March-April 2015" href="../index.html" />
+    <link rel="up" title="Supplemental Materials" href="index.html" />
+    <link rel="next" title="Working with Virtualenv" href="virtualenv.html" />
+    <link rel="prev" title="Setting up Windows for Python and this class" href="python_for_windows.html" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body>
+<div class="header">
+  <div class="logo">
+    <a href="../index.html">
+      <img class="logo" src="../_static/cf_logo.png" alt="Logo"/>
+      <p>Code Fellows</p>
+    </a>
+  </div>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="virtualenv.html" title="Working with Virtualenv"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="python_for_windows.html" title="Setting up Windows for Python and this class"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">F2 Python</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Supplemental Materials</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="setting-up-linux-for-python-and-this-class">
+<h1>Setting up Linux for Python and this class<a class="headerlink" href="#setting-up-linux-for-python-and-this-class" title="Permalink to this headline">¶</a></h1>
+<p>NOTE: this is from memory: no system to test on right now.</p>
+<div class="section" id="getting-the-tools">
+<h2>Getting The Tools<a class="headerlink" href="#getting-the-tools" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="python">
+<h3>Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h3>
+<p>You probably already have python. Try:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>python
+Python 2.7.8 <span class="o">(</span>v2.7.8:ee879c0ffa11, Jun 29 2014, 21:07:35<span class="o">)</span>
+<span class="o">[</span>GCC 4.2.1 <span class="o">(</span>Apple Inc. build 5666<span class="o">)</span> <span class="o">(</span>dot 3<span class="o">)]</span> on linux
+</pre></div>
+</div>
+<p>You can see what version you&#8217;ve got. If you don&#8217;t have 2.7.*, then you&#8217;ll need to go try to find a newer version &#8211; your distribution may have a package named something like:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>apt-get install python2.7
+</pre></div>
+</div>
+<p>Or <tt class="docutils literal"><span class="pre">yum</span> <span class="pre">install</span></tt> or ???</p>
+</div>
+<div class="section" id="terminal">
+<h3>Terminal<a class="headerlink" href="#terminal" title="Permalink to this headline">¶</a></h3>
+<p>Every Linux box has a terminal emulator &#8211; find and use it.</p>
+</div>
+<div class="section" id="git">
+<h3>git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h3>
+<p>git is likely to be there on your system already, but if not:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$apt</span>-get install git
+</pre></div>
+</div>
+</div>
+<div class="section" id="pip">
+<h3>pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">pip</span></tt> is the Python package installer.</p>
+<p>Many python packages are also available directly from your distro &#8211; but you&#8217;ll get the latest and greatest if you use <tt class="docutils literal"><span class="pre">pip</span></tt> to install it instead.</p>
+<p>To get pip, the first option is to use your system package manager, something like:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$apt</span>-get install python-pip
+</pre></div>
+</div>
+<p>If that doesn&#8217;t work, you can get it from:</p>
+<p><a class="reference external" href="https://pip.pypa.io/en/latest/installing.html">https://pip.pypa.io/en/latest/installing.html</a></p>
+<p>download <tt class="docutils literal"><span class="pre">get-pip.py</span></tt> from that site, and run it with python:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python get-pip.py
+</pre></div>
+</div>
+<p>It should download and install <tt class="docutils literal"><span class="pre">pip</span></tt> (and <tt class="docutils literal"><span class="pre">setuptools</span></tt>)</p>
+<p>You can now use pip to install other packages.</p>
+</div>
+<div class="section" id="ipython">
+<h3>iPython<a class="headerlink" href="#ipython" title="Permalink to this headline">¶</a></h3>
+<p>One we are going to use in class is <tt class="docutils literal"><span class="pre">iPython</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ pip install ipython
+</pre></div>
+</div>
+<p>You should now be able to run <tt class="docutils literal"><span class="pre">iPython</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ ipython
+    Python 2.7.8 (v2.7.8:ee879c0ffa11, Jun 29 2014, 21:07:35)
+    Type &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+
+    IPython 2.0.0 -- An enhanced Interactive Python.
+    ?         -&gt; Introduction and overview of IPython&#39;s features.
+    %quickref -&gt; Quick reference.
+    help      -&gt; Python&#39;s own help system.
+    object?   -&gt; Details about &#39;object&#39;, use &#39;object??&#39; for extra details.
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Setting up Linux for Python and this class</a><ul>
+<li><a class="reference internal" href="#getting-the-tools">Getting The Tools</a><ul>
+<li><a class="reference internal" href="#python">Python</a></li>
+<li><a class="reference internal" href="#terminal">Terminal</a></li>
+<li><a class="reference internal" href="#git">git</a></li>
+<li><a class="reference internal" href="#pip">pip</a></li>
+<li><a class="reference internal" href="#ipython">iPython</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="python_for_windows.html"
+                        title="previous chapter">Setting up Windows for Python and this class</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="virtualenv.html"
+                        title="next chapter">Working with Virtualenv</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="virtualenv.html" title="Working with Virtualenv"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="python_for_windows.html" title="Setting up Windows for Python and this class"
+             >previous</a> |</li>
+        <li><a href="../index.html">F2 Python</a> &raquo;</li>
+          <li><a href="index.html" >Supplemental Materials</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Christopher Barker, Cris Ewing.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,101 @@
+********
+Syllabus
+********
+
+Instructor:
+-----------
+
+| Paul Pham
+| @paul.pham on Slack
+| (paul at codefellows dot com)
+
+Teaching Assistants:
+--------------------
+
+| Ben Friedland
+| @ben_friedland
+
+| Ulises Herrera
+| @uli
+
+How This Fits into CodeFellows
+----------------------------
+
+Prerequisites
+
+* Foundations I: Web Dev with HTML, CSS, Javascript
+* Unix & Git for Everyone
+
+This Class
+
+* Pre-Work
+* Foundations II: Python
+
+Where to Go From Here
+
+* Python Development Accelerator
+
+Class Meetings
+--------------
+
+* Twice a week for 4 weeks
+* 8 total class sessions
+* Mondays and Wednesdays, 7-9pm 
+
+Office Hours
+------------
+
+Instructor Office Hours
+
+*  6-7pm Mondays and Wednesdays, before class
+* In The Easy classroom
+
+TA Office Hours
+
+* Ben: 5-6pm Tuesdays and Fridays, first-floor coworking area
+* Ulises: 4-5pm Wednesday, and by appointment
+
+Homework
+--------
+
+* 2-4 homework tasks per class session.
+* Overall, about 25 homework tasks.
+* Worth 5 points each.
+
+Rubric:
+
+* 0 points not turned in
+* 1 points crashes, major syntax errors.
+* 2 points crashes, minor syntax errors.
+* 3 points runs, major logical errors
+* 4 points runs correctly, with minor logical or style errors
+* 5 points, compiles and runs perfectly with good style.
+
+Grading Policy
+--------------
+
+In order to pass the class, you must:
+
+* Attend at least 6 out of 8 classes.
+* Score 4 points on each assigned homework task.
+
+You get a bonus (5th) point for turning in a perfect assignment
+
+* On-time
+* No mistakes or style errors, followed all directions.
+
+Regrading:
+
+You can resubmit as many times as necessary to get 4 points,
+with the following caveats.
+
+Late Work:
+
+Late homework (including resubmits) will be accepted up to 1 week after the class has ended
+
+* April 15
+
+I encourage you not to wait this long.
+Teaching staff will guarantee grading each assignment once after
+submission, and they will do their best to grade each new submission
+as time allows, dividing up regrading time equally among all students.

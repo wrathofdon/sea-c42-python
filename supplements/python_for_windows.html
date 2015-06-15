@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Setting up Windows for Python and this class &mdash; Code Fellows F2 Python, March-April 2015</title>
+    
+    <link rel="stylesheet" href="../_static/pyramid.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Code Fellows F2 Python, March-April 2015" href="../index.html" />
+    <link rel="up" title="Supplemental Materials" href="index.html" />
+    <link rel="next" title="Setting up Linux for Python and this class" href="python_for_linux.html" />
+    <link rel="prev" title="Setting up your Mac for Python and this class" href="python_for_mac.html" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Neuton&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic&amp;subset=latin" type="text/css" media="screen" charset="utf-8" />
+<!--[if lte IE 6]>
+<link rel="stylesheet" href="../_static/ie6.css" type="text/css" media="screen" charset="utf-8" />
+<![endif]-->
+
+  </head>
+  <body>
+<div class="header">
+  <div class="logo">
+    <a href="../index.html">
+      <img class="logo" src="../_static/cf_logo.png" alt="Logo"/>
+      <p>Code Fellows</p>
+    </a>
+  </div>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="python_for_linux.html" title="Setting up Linux for Python and this class"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="python_for_mac.html" title="Setting up your Mac for Python and this class"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">F2 Python</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Supplemental Materials</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="setting-up-windows-for-python-and-this-class">
+<h1>Setting up Windows for Python and this class<a class="headerlink" href="#setting-up-windows-for-python-and-this-class" title="Permalink to this headline">¶</a></h1>
+<p>NOTE: this is from memory: no system to test on right now.</p>
+<div class="section" id="getting-the-tools">
+<h2>Getting The Tools<a class="headerlink" href="#getting-the-tools" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="python">
+<h3>Python<a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h3>
+<p>There are a number of python distributions available &#8211; many designed for easier support of scientific programming:</p>
+<p>Anaconda
+Enthought Canopy
+Python(x,y)</p>
+<p>But for core use, the installer from python.org is the way to go:</p>
+<p><a class="reference external" href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></p>
+<p>You want the installer for Python 2.7.8 &#8211; probably 64 bit, though if you have a 32 bit sytem, you can get that. There is essentially no difference for the purposes of this course.</p>
+<p>Double click and install.</p>
+</div>
+<div class="section" id="terminal">
+<h3>Terminal<a class="headerlink" href="#terminal" title="Permalink to this headline">¶</a></h3>
+<p>You can use the &#8220;DOS Box&#8221; as a terminal, though the newer &#8220;powershell&#8221; is a better option.</p>
+<p>But to use the Python in the terminal efectively, you need to put a couple paths on your &#8220;PATH&#8221; environment variable:</p>
+<p><a class="reference external" href="http://www.computerhope.com/issues/ch000549.htm">http://www.computerhope.com/issues/ch000549.htm</a></p>
+<p>You want to add:</p>
+<p><tt class="docutils literal"><span class="pre">C:\Python2.7</span></tt></p>
+<p>and</p>
+<p><tt class="docutils literal"><span class="pre">C:\Python2.7\Scripts</span></tt></p>
+<p>to <tt class="docutils literal"><span class="pre">PATH</span></tt></p>
+</div>
+<div class="section" id="git">
+<h3>git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h3>
+<p>Get a git client &#8211; the gitHub GUI client may be nice &#8211; I honestly don&#8217;t know.</p>
+<p>There is also ToroiseGit:</p>
+<p><a class="reference external" href="https://code.google.com/p/tortoisegit/">https://code.google.com/p/tortoisegit/</a></p>
+<p>which integrates git with the filemanager. But for the purposes of learning, it may be better to use a command line client:</p>
+<p><a class="reference external" href="http://git-scm.com/download/win">http://git-scm.com/download/win</a></p>
+<p>I think that gives you a &#8220;Git bash shell&#8221; &#8211; a command window that gives you a *nix - like command line shell.</p>
+</div>
+<div class="section" id="pip">
+<h3>pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">pip</span></tt> is the Python package installer. Unfortunately, it doesn&#8217;t come out of the box with Python2.7, so you need to install it:</p>
+<p><a class="reference external" href="https://pip.pypa.io/en/latest/installing.html">https://pip.pypa.io/en/latest/installing.html</a></p>
+<p>download <tt class="docutils literal"><span class="pre">get-pip.py</span></tt> from that site, and run it with python:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python get-pip.py
+</pre></div>
+</div>
+<p>It should download and install <tt class="docutils literal"><span class="pre">pip</span></tt> (and <tt class="docutils literal"><span class="pre">setuptools</span></tt>)</p>
+<p>You can now use pip to install other packages.</p>
+</div>
+<div class="section" id="ipython">
+<h3>iPython<a class="headerlink" href="#ipython" title="Permalink to this headline">¶</a></h3>
+<p>One we are going to use in class is <tt class="docutils literal"><span class="pre">iPython</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ pip install ipython
+</pre></div>
+</div>
+<p>You should now be able to run <tt class="docutils literal"><span class="pre">iPython</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ ipython
+    Python 2.7.8 (v2.7.8:ee879c0ffa11, Jun 29 2014, 21:07:35)
+    Type &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+
+    IPython 2.0.0 -- An enhanced Interactive Python.
+    ?         -&gt; Introduction and overview of IPython&#39;s features.
+    %quickref -&gt; Quick reference.
+    help      -&gt; Python&#39;s own help system.
+    object?   -&gt; Details about &#39;object&#39;, use &#39;object??&#39; for extra details.
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Setting up Windows for Python and this class</a><ul>
+<li><a class="reference internal" href="#getting-the-tools">Getting The Tools</a><ul>
+<li><a class="reference internal" href="#python">Python</a></li>
+<li><a class="reference internal" href="#terminal">Terminal</a></li>
+<li><a class="reference internal" href="#git">git</a></li>
+<li><a class="reference internal" href="#pip">pip</a></li>
+<li><a class="reference internal" href="#ipython">iPython</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="python_for_mac.html"
+                        title="previous chapter">Setting up your Mac for Python and this class</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="python_for_linux.html"
+                        title="next chapter">Setting up Linux for Python and this class</a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="python_for_linux.html" title="Setting up Linux for Python and this class"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="python_for_mac.html" title="Setting up your Mac for Python and this class"
+             >previous</a> |</li>
+        <li><a href="../index.html">F2 Python</a> &raquo;</li>
+          <li><a href="index.html" >Supplemental Materials</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Christopher Barker, Cris Ewing.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
