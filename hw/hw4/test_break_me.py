@@ -19,6 +19,7 @@ def test_name_error():
 
 
 def test_attribute_error():
+    assert('exhibit_attribute_error' in dir(break_me))
     try:
         break_me.exhibit_attribute_error()
         assert(False)
