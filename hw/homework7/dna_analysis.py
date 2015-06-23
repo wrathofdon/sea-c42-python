@@ -56,7 +56,7 @@ a_count = 0
 t_count = 0
 g_count = 0
 c_count = 0
-
+error_string = ""
 
 # for each base pair in the string,
 for bp in seq:
@@ -72,24 +72,27 @@ for bp in seq:
     #    at_count = at_count + 1
     if bp == 'A':
         a_count += 1
-    if bp == 'T':
+    elif bp == 'T':
         t_count += 1
-    if bp == 'G':
+    elif bp == 'G':
         g_count += 1
-    if bp == 'C':
+    elif bp == 'C':
         c_count += 1
+    else:
+        error_string += bp
 
 
 # divide the gc_count by the total_count
 gc_count = g_count + c_count
 at_count = a_count + t_count
+total_count2 = at_count + gc_count
 # total at & gc are calculated only once
-gc_content = float(gc_count) / total_count
-at_content = float(at_count) / total_count
-a_content = float(a_count) / total_count
-t_content = float(t_count) / total_count
-g_content = float(g_count) / total_count
-c_content = float(c_count) / total_count
+gc_content = float(gc_count) / total_count2
+at_content = float(at_count) / total_count2
+a_content = float(a_count) / total_count2
+t_content = float(t_count) / total_count2
+g_content = float(g_count) / total_count2
+c_content = float(c_count) / total_count2
 
 # Print the answer
 print('GC-content:', gc_content)
@@ -98,3 +101,17 @@ print('A-content:', a_content)
 print('T-content:', t_content)
 print('G-content:', g_content)
 print('C-content:', c_content)
+print('AT/GG:', at_content / gc_content)
+
+if (gc_content > .6):
+    print("high gc")
+elif (gc_content < .4):
+    print("low gc")
+else:
+    print("moderate gc")
+
+print("Total:", total_count)
+print("Sequence:", len(seq))
+print("Base Total:", gc_count + at_count)
+print("Error String:", error_string)
+

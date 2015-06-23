@@ -41,20 +41,32 @@ Problem 5:
 
 Problem 6:
 
-...
+"test-high-gc-1.fastq" has an error.  Sequence length = 40,000, but base total
+is 39840.  Since the difference is small, I declared a string called "error
+string" and converted the for loop to an "if, elif, else."  In the event that
+bp is not ATGH, the value of the bp will be added to the error string.  This
+resulted in "Error String: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"
+
+len(seq) and total_count should always be the same, since total_count adds 1 for
+every character in seq.  The only unknown is the bp total, which only increases
+if the letter matches GCAT.  The correct denominator depends on whether you wish
+to know the percentage out of confirmed nucleotides, or if you want the
+recipient to know which percent of nucleotides scanned as errors.
 
 Problem 7:
 
-...
+AT/GG: 2.3333333333333335
 
 Problem 8:
 
-...
+moderate gc
 
 Collaboration:
 
-...
+Did not recieve help.
 
 Reflection:
 
-...
+Asignment seemed pretty staight forward.
