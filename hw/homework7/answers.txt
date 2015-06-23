@@ -16,15 +16,21 @@ Problem 1:
 
 Problem 2:
 
-...
+('GC-content:', 0.3)
 
 Problem 3:
 
-...
+File "dna_analysis.py", line 38, in <module>
+    linenum = linenum + 1
+NameError: name 'linenum' is not defined
+
+The program generates a name error because it calls on a variable that wasn't
+declared.  The line that originally declared it was blocked out via comments.
 
 Problem 4:
 
-...
+('GC-content:', 0.3)
+('AT-content:', 0.7)
 
 Problem 5:
 
