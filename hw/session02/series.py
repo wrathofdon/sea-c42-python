@@ -14,9 +14,11 @@ def fibonacci(length):
         for i in range(length):
             if (i > 0):
                 string.append(string[i] + string[i - 1])
-                """if addition is necessary, it only counts if the string is
-                more than 2.  At which point, you add the previous numbers on
-                list and append the new sum."""
+                """The for loop adds the last two numbers on the string in order
+                to generate/append the next number on the string.  This only
+                happens if the list is longer than two.  But it says "0" the
+                use of list coordinates subtracts 1, and the use of range
+                subtracts another 1."""
         return string[(length)]
         """Once range is completeled, we return the last number on list"""
 
