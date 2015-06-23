@@ -2,16 +2,17 @@ def fibonacci(length):
     if (type(length) != int or length < 0):
         print("Positive intergers only")
         return False
+        """This is error checking"""
     elif (length == 0):
         return 0
     elif (length == 1):
         return 1
+        """Addition is only necessary if the parameter is 2 or more"""
     else:
         string = [0, 1]
         for i in range(length):
-            i += 1
-            if (i > 1):
-                string.append(string[i - 1] + string[i - 2])
+            if (i > 0):
+                string.append(string[i] + string[i - 1])
         return string[(length)]
 
 
@@ -26,17 +27,9 @@ def lucas(length):
     else:
         string = [2, 1]
         for i in range(length):
-            i += 1
-            if (i > 1):
-                string.append(string[i - 1] + string[i - 2])
+            if (i > 0):
+                string.append(string[i] + string[i - 1])
         return string[(length)]
-
-
-lucas(1)
-lucas(2)
-lucas(3)
-lucas(4)
-lucas(5)
 
 
 def sum_series(length, x=0, y=1):
@@ -50,9 +43,8 @@ def sum_series(length, x=0, y=1):
     else:
         string = [x, y]
         for i in range(length):
-            i += 1
-            if (i > 1):
-                string.append(string[i - 1] + string[i - 2])
+            if (i > 0):
+                string.append(string[i] + string[i - 1])
         return string[(length)]
 
 
