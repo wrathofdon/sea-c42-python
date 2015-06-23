@@ -34,7 +34,10 @@ Problem 4:
 
 Problem 5:
 
-...
+('A-content:', 0.5)
+('T-content:', 0.2)
+('G-content:', 0.1)
+('C-content:', 0.2)
 
 Problem 6:
 
