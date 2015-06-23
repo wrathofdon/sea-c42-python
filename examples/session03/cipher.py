@@ -10,7 +10,7 @@ cipher_list = list(alphabet_list)
 # This should be a list in order
 print(cipher_list)
 
-message_text = "what has dates and sundays but cannot be eaten"
+message_text = "why did the chicken cross the road"
 
 random.shuffle(cipher_list)
 
