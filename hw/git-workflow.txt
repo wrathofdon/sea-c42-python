@@ -1,0 +1,78 @@
+========================================================================
+SEA-C42: Foundations II - Python
+GIT WORKFLOW GUIDE
+========================================================================
+
+1. Switch to master branch.
+
+$ git checkout master
+
+========================================================================
+
+2. Create new branch and switch to it (e.g. hw05).
+
+$ git checkout -b hw05
+
+# This is the same as:
+# $ git branch hw05
+# $ git checkout hw05
+
+========================================================================
+
+3. Make a directory and change into it (e.g. hw05).
+
+$ mkdir hw05
+$ cd hw05
+
+========================================================================
+
+4. Create file(s) for your assignment (e.g. hw_file.py). Check the
+invidual assignment for the filename(s) to use.
+
+$ touch hw_file.py
+
+========================================================================
+
+5. Initialize files onto GitHub.
+
+$ git add hw_file.py
+$ git status
+$ git commit -m "Add inital homework file."
+$ git status
+
+========================================================================
+
+6. Write code in the empty files that you just created.
+
+========================================================================
+
+7. Commit code to GitHub. Substitute a good commit message for the
+placeholder below.
+
+$ git add break_me.py
+$ git commit -m "Add function to file."
+
+# It's good practice to commit your work onto Github regularly
+# Roughly, every 10-20 lines you change.
+
+========================================================================
+
+8. After finishing you're assignment and committing your code...
+
+$ git push origin hw05
+
+========================================================================
+
+9. Create a pull request and submit via canvas. 
+
+- go to your repo on GitHub.
+- click on green button to create pull request
+- check that:
+    - base fork: username/sea-c42-python        base: master
+    - head fork: username/sea-c42-python-1      compare: hw05
+- click green button "Create pull request"
+- type in Title (e.g. Russell Wilson's HW05)
+- submit pull request url via canvas
+- (e.g. https://github.com/codefellows/sea-c34-python/pull/19)
+
+========================================================================
