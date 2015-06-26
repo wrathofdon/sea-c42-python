@@ -3,6 +3,7 @@
 # http://stackoverflow.com/questions/674509/how-do-i-iterate-over-a-python-dictionary-ordered-by-values
 
 contacts = {
+    # constructing the contacts
     "Abe": [1, 2, 3, 4, 5],
     "Bob": [6, 7, 8, 9, 10],
     "Carl": [11, 12, 13, 14, 15]
@@ -16,8 +17,8 @@ def startup_boot():
     print("T - Send a (T)hank You and Print E-Mail")
     print("R - Create a (R)eport")
     response = input("quit - Quit the program: ")
-    response = response[:1]
-    response = response.lower()
+    response = response.lover[:1]
+    # input only cares about the first letter
     if (response == "q"):
         quit()
     elif (response == "t"):
@@ -27,6 +28,7 @@ def startup_boot():
     else:
         print("Invalid entry.")
         startup_boot()
+        # program reboots with invalid entry
 
 
 def thank_you():
@@ -38,7 +40,7 @@ def thank_you():
         startup_boot()
     if (donor.lower() == "q" or donor.lower() == "quit"):
         quit()
-    elif (donor.lower()[:1] == "l"):
+    elif (donor.lower() == "1" or donor.lower() == "list"):
         print("----------------------------")
         for donor in sorted(contacts):
             print(donor)
