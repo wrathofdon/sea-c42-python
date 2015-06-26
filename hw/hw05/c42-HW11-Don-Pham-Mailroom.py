@@ -11,6 +11,7 @@ contacts = {
 
 def startup_boot():
     print("----------------------------")
+    print(contacts)
     print("Welcome to Mailroom Madness")
     print("Choose from the following:")
     print("T - Send a (T)hank You and Print E-Mail")
@@ -34,24 +35,23 @@ def thank_you():
     print("Please enter a name, or choose from the following:")
     print("list - Print a list of previous donors")
     donor = input("back - Return to main menu: ")
-    if (donor.lower() == "b" or donor.lower() == "back"):
+    if (donor.lower() == "b" or donor.lower() == "quit"):
         startup_boot()
-    elif (donor.lower() == "l" or donor.lower() == "list"):
+    if (donor.lower() == "q" or donor.lower() == "quit"):
+        quit()
+    elif (donor.lower()[:1] == "l"):
         print("----------------------------")
         for donor in sorted(contacts):
             print(donor)
         thank_you()
     elif (donor in contacts):
         print(donor, " selected")
-        cash = input("Please enter a donation amount or 'back':")
-        process_cash(cash)
-        contacts[donor].append(int(cash))
+        process_cash(donor)
         startup_boot()
     else:
-        print("Add ", donor, " to donation list?")
-        cash = input("Please enter a donation amount or 'back':")
-        process_cash(cash)
-        contacts.update({donor: [int(cash)]})
+        contacts.update({donor: []})
+        print("Adding ", donor, " to donation list (Pending)...")
+        process_cash(donor)
         startup_boot()
 
 
@@ -63,8 +63,39 @@ def print_letter():
     print("print_letter")
 
 
-def process_cash(cash):
-    return cash
+def test_cash(cash):
+    try:
+        float(cash)
+        print("valuetrue")
+        return True
+    except ValueError:
+        print("valuefalse")
+        return False
+
+
+def process_cash(donor):
+    cash = "cash"
+    while (not test_cash(cash)):
+        print(contacts)
+        cash = input("Please enter a donation amount or 'back':")
+        if (cash.lower()[:1] == "q"):
+            quit()
+        if (cash.lower()[:1] == "b"):
+            if (contacts[donor]):
+                pass
+            else:
+                del contacts[donor]
+            thank_you()
+        print(cash)
+        if (cash[:1] == "$"):
+            cash = cash[1:]
+            print(cash)
+    print("94")
+    cash = float(cash)
+    if (cash % 1 != 0):
+        print("Rounding donation value to", int(cash))
+    cash = int(cash)
+    contacts[donor].append(cash)
 
 
 def generate_report():
