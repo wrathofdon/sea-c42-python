@@ -1,5 +1,6 @@
 # Dictionary sorting guide: http://www.saltycrane.com/blog/2007/09/how-to-sort-python-dictionary-by-keys/
 # Reverse order: http://stackoverflow.com/questions/5455606/how-to-reverse-order-of-keys-in-python-dict
+# http://stackoverflow.com/questions/674509/how-do-i-iterate-over-a-python-dictionary-ordered-by-values
 
 contacts = {
     "Abe": [1, 2, 3, 4, 5],
@@ -32,25 +33,26 @@ def thank_you():
     print("----------------------------")
     print("Please enter a name, or choose from the following:")
     print("list - Print a list of previous donors")
-    donor = input("quit - Return to main menu: ")
-    if (donor.lower() == "q" or donor.lower() == "quit"):
+    donor = input("back - Return to main menu: ")
+    if (donor.lower() == "b" or donor.lower() == "back"):
         startup_boot()
     elif (donor.lower() == "l" or donor.lower() == "list"):
         print("----------------------------")
         for donor in sorted(contacts):
             print(donor)
         thank_you()
+    elif (donor in contacts):
+        print(donor, " selected")
+        cash = input("Please enter a donation amount or 'back':")
+        process_cash(cash)
+        contacts[donor].append(int(cash))
+        startup_boot()
     else:
-        cash = int(input("Please enter a donation amount or 'quit': "))
-        if (cash.lower() == "q" or cash.lower() == "quit"):
-            statup_boot()
-        elif (donor in contacts):
-            history = contacts[donor]
-            history.append(cash)
-            print_letter()
-        else:
-            contacts.update({donor: cash})
-            print_letter()
+        print("Add ", donor, " to donation list?")
+        cash = input("Please enter a donation amount or 'back':")
+        process_cash(cash)
+        contacts.update({donor: [int(cash)]})
+        startup_boot()
 
 
 def print_list():
@@ -59,6 +61,10 @@ def print_list():
 
 def print_letter():
     print("print_letter")
+
+
+def process_cash(cash):
+    return cash
 
 
 def generate_report():
@@ -71,7 +77,7 @@ def generate_report():
     for name in sorted_list:
         donations_total = contacts_total[name]
         donations_number = len(contacts[name])
-        donations_average = donations_total / donations_number
+        donations_average = round(donations_total / donations_number, 2)
         print("----------------------------")
         print(name, donations_total, donations_number, donations_average)
     startup_boot()
