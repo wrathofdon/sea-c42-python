@@ -11,7 +11,6 @@ contacts = {
 
 def startup_boot():
     print("----------------------------")
-    print(contacts)
     print("Welcome to Mailroom Madness")
     print("Choose from the following:")
     print("T - Send a (T)hank You and Print E-Mail")
@@ -35,7 +34,7 @@ def thank_you():
     print("Please enter a name, or choose from the following:")
     print("list - Print a list of previous donors")
     donor = input("back - Return to main menu: ")
-    if (donor.lower() == "b" or donor.lower() == "quit"):
+    if (donor.lower() == "b" or donor.lower() == "back"):
         startup_boot()
     if (donor.lower() == "q" or donor.lower() == "quit"):
         quit()
@@ -55,28 +54,13 @@ def thank_you():
         startup_boot()
 
 
-def print_list():
-    print("print_list")
-
-
-def print_letter():
-    print("print_letter")
-
-
-def test_cash(cash):
-    try:
-        float(cash)
-        print("valuetrue")
-        return True
-    except ValueError:
-        print("valuefalse")
-        return False
+def print_letter(donor, cash):
+    print("Thank you, %s, for donating $%.2f" % (donor, cash))
 
 
 def process_cash(donor):
     cash = "cash"
-    while (not test_cash(cash)):
-        print(contacts)
+    while (not cash.replace('.', '', 1).isdigit()):
         cash = input("Please enter a donation amount or 'back':")
         if (cash.lower()[:1] == "q"):
             quit()
@@ -86,16 +70,17 @@ def process_cash(donor):
             else:
                 del contacts[donor]
             thank_you()
-        print(cash)
         if (cash[:1] == "$"):
             cash = cash[1:]
             print(cash)
-    print("94")
+        if (not cash.replace('.', '', 1).isdigit()):
+            print("Invalid Entry")
     cash = float(cash)
-    if (cash % 1 != 0):
-        print("Rounding donation value to", int(cash))
-    cash = int(cash)
+    if ((cash * 100) % 1 != 0):
+        print("Invalid Entry")
+        process_cash(donor)
     contacts[donor].append(cash)
+    print_letter(donor, cash)
 
 
 def generate_report():
