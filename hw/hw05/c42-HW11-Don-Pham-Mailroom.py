@@ -2,12 +2,10 @@
 # Reverse order: http://stackoverflow.com/questions/5455606/how-to-reverse-order-of-keys-in-python-dict
 # http://stackoverflow.com/questions/674509/how-do-i-iterate-over-a-python-dictionary-ordered-by-values
 
-contacts = {
-    # constructing the contacts
-    "Abe": [1, 2, 3],
-    "Bob": [6, 7],
-    "Carl": [11]
-}
+contacts = ["Abe", [1, 2, 3], 6, "Bob", [6, 7], 44413, "Carl", [11], 3311]
+"""This is a variant of the assignment that only uses lists without
+dictionaries.  Each person in the contacts list has three elements: Name,
+an internal list containing donation history, and the donation totals."""
 
 
 def startup_boot():
@@ -44,19 +42,18 @@ def thank_you():
     if (donor.lower() == "q" or donor.lower() == "quit"):
         quit()
     elif (donor.lower() == "l" or donor.lower() == "list"):
-        print("----------------------------")
-        for donor in sorted(contacts):
-            # sorted command provides names in alphabetical order
-            print(donor)
+        print("-" * 79)
+        for name in sorted(contacts[0::3]):
+            print(name)
         thank_you()
-    elif (donor in contacts):
+    elif (donor in contacts[0::3]):
         print(donor, "selected")
         # confirms that user made right choice
         process_cash(donor)
         startup_boot()
     else:
-        contacts.update({donor: []})
-        print("Adding", donor, "to donation list (Pending)...")
+        contacts.extend([donor, [], 0])
+        print("Adding %s to donation list (Pending)..." % donor)
         # Lets user know that new entry was added
         process_cash(donor)
         startup_boot()
@@ -64,11 +61,12 @@ def thank_you():
 
 def print_letter(donor, cash):
     """Prints letter, using 'donor' and 'cash' as parameters"""
+    cash = money_formatter(cash)
     print("-" * 79)
     print("Constructing letter...")
     print("-" * 79)
     print ("Dear %s,\n\n"
-        "Thank you so much for your kind donation of $%.2f. We here at"
+        "Thank you so much for your kind donation of %s. We here at"
         "the Foundation for Homeless Whales greatly appreciate it. Your "
         "money will go towards creating new oceans on the moon for whales to "
         "live in.\n\nThanks again,\n\nJim Grant\n\nDirector, F.H.W."
@@ -79,16 +77,17 @@ def print_letter(donor, cash):
 def process_cash(donor):
     """Checks the donation, gives user the chance to back out"""
     cash = "cash"
+    index = contacts.index(donor)
     while (not cash.replace('.', '', 1).isdigit()):
         # While loop activates if "cash" isn't an interget or decimal
         cash = input("Please enter a donation amount or type 'undo':")
         if (cash.lower()[:1] == "q"):
             quit()
         if (cash.lower()[:1] == "u"):
-            if (contacts[donor]):
+            if (contacts[index + 2] != 0):
                 pass
             else:
-                del contacts[donor]
+                del contacts[index:(index + 3)]
                 print(donor, "deleted from contacted list")
                 # removes donor from contacts if user changes mind
             thank_you()
@@ -105,27 +104,29 @@ def process_cash(donor):
         print("Invalid Entry")
         process_cash(donor)
     else:
-        contacts[donor].append(cash)
+        contacts[index + 1].append(cash)
+        contacts[index + 2] += cash
         # adds cash donation to donor history
         print_letter(donor, cash)
         # calls print function, using donor and cash as arguments
 
 
-def money_formatter(amount):
+def money_formatter(amount, remove=0):
     """Format dollar amount as a formatted string with whole dollars"""
     if (type(amount) == str):
         return spaces_formatter(16, amount)
         # This is so I can use a regular string in the title bar
-    amount = "$" + str(int(amount))
+    amount = "$%.2f" % amount
     # rounds the amount to an integer, then converts it to a string
-    if (len(amount) > 4):
-        amount = amount[:-3] + "," + amount[-3:]
-    if (len(amount) > 8):
-        amount = amount[:-7] + "," + amount[-7:]
-    if (len(amount) > 12):
-        amount = amount[:-11] + "," + amount[-11:]
+    if (len(amount) > 7):
+        amount = amount[:-6] + "," + amount[-6:]
+    if (len(amount) > 11):
+        amount = amount[:-10] + "," + amount[-10:]
+    if (len(amount) > 15):
+        amount = amount[:-14] + "," + amount[-14:]
         # adds commas when appropriate
-    return spaces_formatter(16, amount)
+    amount = amount[0:(len(amount) + remove)]
+    return amount
 
 
 def spaces_formatter(total, string):
@@ -142,45 +143,48 @@ def spaces_formatter(total, string):
 def report_line(name, total, number, average):
     """Takes raw inputs, calls on the formatters, and generates a line"""
     name = spaces_formatter(32, name)
-    total = money_formatter(total)
+    total = spaces_formatter(16, money_formatter(total, -3))
     number = spaces_formatter(6, number)
-    average = money_formatter(average)
+    average = spaces_formatter(16, money_formatter(average, -3))
     print(name, "|", total, "|", number, "|", average)
 
 
+def sort_contacts(contacts, number_of_names):
+    for i in range(number_of_names):
+        i = i * 3 + 1
+        contacts[i + 1] = sum(contacts[i])
+    sorted_amounts = (sorted(contacts[2::3]))
+    temp_list = []
+    for amount in sorted_amounts:
+        index = contacts.index(amount) - 2
+        for i in range(3):
+            temp_list.append(contacts[index + i])
+    return temp_list
+
+
 def generate_report():
+    number_of_names = int(len(contacts) / 3)
     """Generates report of past donations"""
-    contacts_total = {}
     print("-" * 79)
-    report_line("Name:", "$Total", "#", "$Average")
+    report_line("Name :", "$Total :  ", "# :", "$Average :  ")
     # Prints out the title bar
-    sorted_list = []
-    # declares blank dictionary and list
-    for key in contacts:
-        contacts_total.update({key: sum(contacts[key])})
-        # For each entry in original contacts, we now add a new dictionary
-        # entry in the contacts_total.  contacts_total entries still have the
-        # same key. but the value is a total sum rather than a list of entries.
-    for item in sorted(contacts_total.items(), key=lambda x: x[1]):
-        sorted_list.append(item[0])
-        # Code sorts the contacts_total dictionary, then iterates through them.
-        # For each iteration, it adds the name of the key to sort_list, which
-        # we use to determine the order for the next step.
     print("-" * 79)
-    for name in sorted_list:
-        donations_total = contacts_total[name]
-        donations_number = len(contacts[name])
-        donations_average = (donations_total / donations_number)
-        report_line(name, donations_total, donations_number, donations_average)
+    global contacts
+    contacts = sort_contacts(contacts, number_of_names)
+    for i in range(number_of_names):
+        name = contacts[i * 3]
+        total = contacts[i * 3 + 2]
+        number = len(contacts[i * 3 + 1])
+        average = total / number
+        report_line(name, total, number, average)
         # for each name in the list, we generate a line
     startup_boot()
 
 
 startup_boot()
-print(spaces_formatter(5, "1"))
 
 
-if __name__ == '__main__':
+"""if __name__ == '__main__':
     assert(spaces_formatter(5, "test") == " test")
     assert(spaces_formatter(7, "test") == "  test")
     assert(spaces_formatter(8, "test") == "   test")
@@ -188,4 +192,4 @@ if __name__ == '__main__':
     assert(money_formatter(16, "9999999999") == "  $9,999,999,999")
     assert(money_formatter(16, "9999999999.4342") == "  $9,999,999,999")
     assert(money_formatter(16, "1.04342") == "              $1")
-    assert(money_formatter(16, "1") == "              $1")
+    assert(money_formatter(16, "1") == "              $1")"""
