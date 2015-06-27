@@ -4,9 +4,9 @@
 
 contacts = {
     # constructing the contacts
-    "Abe": [1, 2, 3, 4, 5],
-    "Bob": [6, 7, 8, 9, 10],
-    "Carl": [11, 12, 13, 14, 15]
+    "Abe": [1, 2, 3],
+    "Bob": [6, 7],
+    "Carl": [11]
 }
 
 
@@ -115,6 +115,7 @@ def money_formatter(amount):
     """Format dollar amount as a formatted string with whole dollars"""
     if (type(amount) == str):
         return spaces_formatter(16, amount)
+        # This is so I can use a regular string in the title bar
     amount = "$" + str(int(amount))
     # rounds the amount to an integer, then converts it to a string
     if (len(amount) > 4):
@@ -133,11 +134,13 @@ def spaces_formatter(total, string):
     limit = total - 2
     if (len(string) > limit):
         string = string[:limit]
+        # This is in case of a very, very long name
     string = ((total - len(string)) * " ") + string
     return string
 
 
 def report_line(name, total, number, average):
+    """Takes raw inputs, calls on the formatters, and generates a line"""
     name = spaces_formatter(32, name)
     total = money_formatter(total)
     number = spaces_formatter(6, number)
@@ -150,6 +153,7 @@ def generate_report():
     contacts_total = {}
     print("-" * 79)
     report_line("Name:", "$Total", "#", "$Average")
+    # Prints out the title bar
     sorted_list = []
     # declares blank dictionary and list
     for key in contacts:
@@ -168,7 +172,20 @@ def generate_report():
         donations_number = len(contacts[name])
         donations_average = (donations_total / donations_number)
         report_line(name, donations_total, donations_number, donations_average)
+        # for each name in the list, we generate a line
     startup_boot()
 
 
 startup_boot()
+print(spaces_formatter(5, "1"))
+
+
+if __name__ == '__main__':
+    assert(spaces_formatter(5, "test") == " test")
+    assert(spaces_formatter(7, "test") == "  test")
+    assert(spaces_formatter(8, "test") == "   test")
+    assert(spaces_formatter(9, "test") == "    test")
+    assert(money_formatter(16, "9999999999") == "  $9,999,999,999")
+    assert(money_formatter(16, "9999999999.4342") == "  $9,999,999,999")
+    assert(money_formatter(16, "1.04342") == "              $1")
+    assert(money_formatter(16, "1") == "              $1")
