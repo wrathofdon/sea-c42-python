@@ -2,13 +2,10 @@
 # Reverse order: http://stackoverflow.com/questions/5455606/how-to-reverse-order-of-keys-in-python-dict
 # http://stackoverflow.com/questions/674509/how-do-i-iterate-over-a-python-dictionary-ordered-by-values
 
-contacts = [
-    """This is a variant of the assignment that only uses lists without
-    dictionaries.  Each person in the contacts list has three elements: Name,
-    an internal list containing donation history, and the donation totals."""
-    ["Abe", [1, 2, 3], 6,
-    "Bob", [6, 7], 13,
-    "Carl", [11], 11]
+contacts = ["Abe", [1, 2, 3], 6, "Bob", [6, 7], 13, "Carl", [11], 11]
+"""This is a variant of the assignment that only uses lists without
+dictionaries.  Each person in the contacts list has three elements: Name,
+an internal list containing donation history, and the donation totals."""
 
 
 def startup_boot():
@@ -44,11 +41,12 @@ def thank_you():
         startup_boot()
     if (donor.lower() == "q" or donor.lower() == "quit"):
         quit()
-    elif (donor.lower() == "1" or donor.lower() == "list"):
+    elif (donor.lower() == "l" or donor.lower() == "list"):
         print("-" * 79)
-        print(sorted(list[0::3]))
+        for name in sorted(contacts[0::3]):
+            print(name)
         thank_you()
-    elif (donor in list[0::3]):
+    elif (donor in contacts[0::3]):
         print(donor, "selected")
         # confirms that user made right choice
         process_cash(donor)
@@ -78,17 +76,17 @@ def print_letter(donor, cash):
 def process_cash(donor):
     """Checks the donation, gives user the chance to back out"""
     cash = "cash"
-    index = contact.index(donor)
+    index = contacts.index(donor)
     while (not cash.replace('.', '', 1).isdigit()):
         # While loop activates if "cash" isn't an interget or decimal
         cash = input("Please enter a donation amount or type 'undo':")
         if (cash.lower()[:1] == "q"):
             quit()
         if (cash.lower()[:1] == "u"):
-            if (contacts[donor]):
+            if (contacts[index + 2] != 0):
                 pass
             else:
-                del contacts[index:(index + 2)]
+                del contacts[index:(index + 3)]
                 print(donor, "deleted from contacted list")
                 # removes donor from contacts if user changes mind
             thank_you()
