@@ -171,7 +171,10 @@ def sort_contacts(contacts, number_of_names):
         contacts[i + 1] = sum(contacts[i])
         # Takes the sum of each list and places the total in the next element
     temp_contacts = list(contacts)
-    # we need to create a temporary copy of the contacts list
+    # We need to create a temporary copy of the contacts list we can edit
+    # This is to prevent a potential issue where two names have the same total
+    # In that case, the same name might get counted twice.
+    # Now, the name is removed from the temporary copy, but not the original
     sorted_amounts = (sorted(contacts[2::3]))
     # this pulls the total values from the list and sorts them
     temp_list = []
