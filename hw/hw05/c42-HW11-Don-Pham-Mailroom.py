@@ -10,12 +10,14 @@ an internal list containing donation history, and the donation totals."""
 
 def startup_boot():
     """provides the main menu"""
-    print("-" * 79)
+    print("\n" + "-" * 79)
     print("Welcome to Mailroom Madness")
-    print("Choose from the following:")
+    print("-" * 79)
+    print("\nChoose from the following:")
     print("T - Send a (T)hank You and Print E-Mail")
     print("R - Create a (R)eport")
-    response = input("quit - Quit the program: ")
+    print("Q - (Q)uit the program")
+    response = input("\n>  ")
     response = response.lower()[:1]
     # input only cares about the first letter
     if (response == "q"):
@@ -30,23 +32,28 @@ def startup_boot():
         # program reboots with invalid entry
 
 
-def thank_you():
+def thank_you(show_title=True):
     """Allows you to add entries contact list"""
-    print("-" * 79)
-    print("Let's create a letter!")
-    print("Please enter a name, or choose from the following:")
+    if (show_title):
+        print("\n" + "-" * 79)
+        print("Let's create a letter!")
+        print("-" * 79)
+    print("\nPlease enter a name, or choose from the following:")
     print("list - Print a list of previous donors")
-    donor = input("back - Return to main menu: ")
+    print("back - Return to main menu")
+    donor = input("\n>  ")
     if (donor.lower() == "b" or donor.lower() == "back"):
         startup_boot()
     if (donor.lower() == "q" or donor.lower() == "quit"):
         quit()
     elif (donor.lower() == "l" or donor.lower() == "list"):
+        print("\n" + "-" * 79)
+        print("Here's a list of our generous donors:")
         print("-" * 79)
         for name in sorted(contacts[0::3]):
             # sorts & every third item in contacts list, which are the names
             print(name)
-        thank_you()
+        thank_you(False)
     elif (donor in contacts[0::3]):
         # checks to see if name is already in list
         print(donor, "selected")
@@ -55,7 +62,7 @@ def thank_you():
         startup_boot()
     else:
         contacts.extend([donor, [], 0])
-        print("Adding %s to donation list (Pending)..." % donor)
+        print("Adding new %s to donor list (Pending)..." % donor)
         # Lets user know that new entry was added, then calls for cash
         process_cash(donor)
         startup_boot()
@@ -69,7 +76,8 @@ def process_cash(donor):
     # cash is declared as invalid from start, in order to launch promp
     while (not cash.replace('.', '', 1).isdigit()):
         # While loop activates if "cash" isn't an interget or decimal
-        cash = input("Please enter a donation amount or type 'undo':")
+        print("Please enter a donation amount or type 'undo':")
+        cash = input("\n>  ")
         # user is given chance to change mind
         if (cash.lower()[:1] == "q"):
             quit()
@@ -121,6 +129,55 @@ def print_letter(donor, cash):
     input("Press Enter to continue...")
 
 
+def generate_report():
+    """Generates report of past donations"""
+    number_of_names = int(len(contacts) / 3)
+    # counts the number of names in contacts list
+    print("\n" + "-" * 79)
+    print("Constructing Report...")
+    print("-" * 79)
+    report_line("Name:", "$Total:  ", "#:", "$Average:  ")
+    # Prints out the title bar
+    # Spaces are added to offset remove in the report_line
+    print("-" * 79)
+    # prevents shadow variable
+    temp_contacts = sort_contacts(contacts, number_of_names)
+    # I had to declare "temp_contacts" to avoid shadowing variables
+    for i in range(number_of_names):
+        name = temp_contacts[i * 3]
+        total = temp_contacts[i * 3 + 2]
+        number = len(temp_contacts[i * 3 + 1])
+        average = total / number
+        report_line(name, total, number, average, -3)
+        # for each name in the list, we generate a line
+        # this is the only time the "remove" parameter is called
+    print("-" * 79)
+    startup_boot()
+
+
+def sort_contacts(contacts, number_of_names):
+    """Sorts contacts list by total donation value"""
+    for i in range(number_of_names):
+        # number of names = len(contacts) / 3,
+        i = i * 3 + 1
+        # This starts at 1 and counts by 3, provides the donation history lists
+        contacts[i + 1] = sum(contacts[i])
+        # Takes the sum of each list and places the total in the next element
+    temp_contacts = list(contacts)
+    # We need to create a temporary copy of the contacts list we can edit
+    # This is to prevent a potential issue where two names have the same total
+    # In that case, the same name might get counted twice.
+    # Now, the name is removed from the temporary copy, but not the original
+    sorted_amounts = (sorted(contacts[2::3]))
+    # this pulls the total values from the list and sorts them
+    temp_list = []
+    for amount in sorted_amounts:
+        index = temp_contacts.index(amount) -2
+        temp_list.extend(temp_contacts[index:(index + 3)])
+        del temp_contacts[index:(index + 3)]
+    return temp_list
+
+
 def money_formatter(amount, remove=0):
     """Format dollar amount as a formatted string with whole dollars"""
     # "remove" is optional parameter that cuts off the end of the final string.
@@ -162,60 +219,12 @@ def report_line(name, total, number, average, remove=0):
     print(name, "|", total, "|", number, "|", average)
 
 
-def sort_contacts(contacts, number_of_names):
-    """Sorts contacts list by total donation value"""
-    for i in range(number_of_names):
-        # number of names = len(contacts) / 3,
-        i = i * 3 + 1
-        # This starts at 1 and counts by 3, provides the donation history lists
-        contacts[i + 1] = sum(contacts[i])
-        # Takes the sum of each list and places the total in the next element
-    temp_contacts = list(contacts)
-    # We need to create a temporary copy of the contacts list we can edit
-    # This is to prevent a potential issue where two names have the same total
-    # In that case, the same name might get counted twice.
-    # Now, the name is removed from the temporary copy, but not the original
-    sorted_amounts = (sorted(contacts[2::3]))
-    # this pulls the total values from the list and sorts them
-    temp_list = []
-    for amount in sorted_amounts:
-        index = temp_contacts.index(amount) -2
-        temp_list.extend(temp_contacts[index:(index + 3)])
-        del temp_contacts[index:(index + 3)]
-    return temp_list
-
-
-def generate_report():
-    """Generates report of past donations"""
-    number_of_names = int(len(contacts) / 3)
-    # counts the number of names in contacts list
-    print("-" * 79)
-    report_line("Name:", "$Total:  ", "#:", "$Average:  ")
-    # Prints out the title bar
-    # Spaces are added to offset remove in the report_line
-    print("-" * 79)
-    # prevents shadow variable
-    temp_contacts = sort_contacts(contacts, number_of_names)
-    for i in range(number_of_names):
-        name = temp_contacts[i * 3]
-        total = temp_contacts[i * 3 + 2]
-        number = len(temp_contacts[i * 3 + 1])
-        average = total / number
-        report_line(name, total, number, average, -3)
-        # for each name in the list, we generate a line
-        # this is the only time the "remove" parameter is called
-    startup_boot()
+if __name__ == '__main__':
+    assert(spaces_formatter(5, "test") == "  tes")
+    assert(spaces_formatter(7, "test") == "   test")
+    assert(spaces_formatter(8, "test") == "    test")
+    assert(spaces_formatter(9, "test") == "     test")
+    assert(money_formatter(9999999999) == "$9,999,999,999.00")
 
 
 startup_boot()
-
-
-"""if __name__ == '__main__':
-    assert(spaces_formatter(5, "test") == " test")
-    assert(spaces_formatter(7, "test") == "  test")
-    assert(spaces_formatter(8, "test") == "   test")
-    assert(spaces_formatter(9, "test") == "    test")
-    assert(money_formatter(16, "9999999999") == "  $9,999,999,999")
-    assert(money_formatter(16, "9999999999.4342") == "  $9,999,999,999")
-    assert(money_formatter(16, "1.04342") == "              $1")
-    assert(money_formatter(16, "1") == "              $1")"""
