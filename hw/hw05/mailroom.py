@@ -12,12 +12,11 @@ contacts = {
 
 def startup_boot():
     """provides the main menu"""
-    print("-" * 79)
-    print("Welcome to Mailroom Madness")
-    print("Choose from the following:")
-    print("T - Send a (T)hank You and Print E-Mail")
-    print("R - Create a (R)eport")
-    response = input("quit - Quit the program: ")
+    response = input("Welcome to Mailroom Madness\n"
+        "\nChoose from the following:"
+        "\nT - Send a (T)hank You and Print E-Mail"
+        "\nR - Create a (R)eport"
+        "\nquit - Quit the program\n> ")
     response = response.lower()[:1]
     # input only cares about the first letter
     if (response == "q"):
@@ -34,15 +33,11 @@ def startup_boot():
 
 def thank_you():
     """Allows you to add entries contact list"""
-    print("-" * 79)
-    print("Let's create a letter!")
-    print("Please enter a name, or choose from the following:")
-    print("list - Print a list of previous donors")
-    donor = input("back - Return to main menu: ")
-    if (donor.lower() == "b" or donor.lower() == "back"):
-        startup_boot()
+    donor = input("Please enter a name, or choose from the following:"
+        "list - Print a list of previous donors"
+        "quit - Return to main menu\n> ")
     if (donor.lower() == "q" or donor.lower() == "quit"):
-        quit()
+        startup_boot()
     elif (donor.lower() == "l" or donor.lower() == "list"):
         print("----------------------------")
         for donor in sorted(contacts):
@@ -50,16 +45,13 @@ def thank_you():
             print(donor)
         thank_you()
     elif (donor in contacts):
-        print(donor, "selected")
+        pass
         # confirms that user made right choice
-        process_cash(donor)
-        startup_boot()
     else:
         contacts.update({donor: []})
-        print("Adding", donor, "to donation list (Pending)...")
         # Lets user know that new entry was added
-        process_cash(donor)
-        startup_boot()
+    process_cash(donor)
+    startup_boot()
 
 
 def print_letter(donor, cash):
@@ -81,7 +73,7 @@ def process_cash(donor):
     cash = "cash"
     while (not cash.replace('.', '', 1).isdigit()):
         # While loop activates if "cash" isn't an interget or decimal
-        cash = input("Please enter a donation amount or type 'undo':")
+        cash = input("Please enter a donation amount or 'quit':\n> $")
         if (cash.lower()[:1] == "q"):
             quit()
         if (cash.lower()[:1] == "u"):
@@ -92,10 +84,6 @@ def process_cash(donor):
                 print(donor, "deleted from contacted list")
                 # removes donor from contacts if user changes mind
             thank_you()
-        if (cash[:1] == "$"):
-            cash = cash[1:]
-            print(cash)
-            # removes "$" if "$" is used. We can re-test it in the next step
         if (not cash.replace('.', '', 1).isdigit()):
             print("Invalid Entry")
             # Error message if the final entry is not a number
