@@ -10,20 +10,22 @@ contacts = {
 
 def startup_boot():
     """provides the main menu"""
-    print("\n", "-" * 79)
-    response = input("Welcome to Mailroom Madness\n"
+    print("\n" + "-" * 79)
+    response = input("\nWelcome to Mailroom Madness\n"
         "\nChoose from the following:"
         "\nT - Send a (T)hank You and Print E-Mail"
         "\nR - Create a (R)eport"
-        "\nquit - Quit the program\n\n> ")
+        "\nquit - Quit the program and save\n\n> ")
     response = response.lower()[:1]
     # input only cares about the first letter
     if (response == "q"):
+        save()
         quit()
     elif (response == "t"):
         thank_you()
     elif (response == "r"):
         generate_report("Total")
+        # Specifies sorting preference (Default = "Total")
     else:
         print("Invalid entry.")
     startup_boot()
@@ -40,6 +42,7 @@ def thank_you():
         startup_boot()
     elif (donor.lower() == "l" or donor.lower() == "list"):
         generate_report("name")
+        # Presents report sorted by name, rather than total
         thank_you()
         # After list is presented, the prompt repeats itself
     elif (donor in contacts):
@@ -94,7 +97,7 @@ def process_cash(donor):
     else:
         contacts[donor].append(cash)
         # adds cash donation to donor history
-        print_letter(donor, cash)
+        print("\n\n" + "-" * 79 + print_letter(donor, cash))
         input("Press Enter to continue...")
         startup_boot()
         # calls print function, using donor and cash as arguments
@@ -109,15 +112,21 @@ def delete_new_donor(donor):
 
 def print_letter(donor, cash):
     """Prints letter, using 'donor' and 'cash' as parameters"""
-    print("-" * 79)
-    print("Constructing letter...")
-    print("-" * 79)
-    print ("Dear {0},\n\n"
+    return("\n\nDear {0},\n\n"
         "Thank you so much for your kind donation of {1}. We here at the "
         "Foundation for Homeless Whales greatly appreciate it. Your money "
-        "will go towards creating new oceans on the moon for whales to live"
-        "in.\n\nThanks again,\n\nJim Grant\n\nDirector, F.H.W.".format(
+        "will go towards creating new oceans on the moon for whales to live "
+        "in.\n\nThanks again,\n\nJim Grant\n\nDirector, F.H.W. \n\n".format(
         donor, money_formatter(cash)))
+
+
+def save():
+    savefile = open("savefile.txt", "w")
+    for name in sorted(contacts.keys()):
+        for donation in contacts[name]:
+            savefile.write("-" * 79)
+            savefile.write(print_letter(name, donation))
+    savefile.close
 
 
 def money_formatter(amount):
