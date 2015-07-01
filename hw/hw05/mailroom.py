@@ -1,22 +1,21 @@
-# Dictionary sorting guide: http://www.saltycrane.com/blog/2007/09/how-to-sort-python-dictionary-by-keys/
-# Reverse order: http://stackoverflow.com/questions/5455606/how-to-reverse-order-of-keys-in-python-dict
-# http://stackoverflow.com/questions/674509/how-do-i-iterate-over-a-python-dictionary-ordered-by-values
-
 contacts = {
     # constructing the contacts
     "Abe": [1, 2, 3],
-    "Bob": [6, 7],
+    "Bob": [6, 7, 200],
     "Carl": [11]
+    "Dave": [545545, 34325]
+    "Eddie": [34, 656, 453, 34]
 }
 
 
 def startup_boot():
     """provides the main menu"""
+    print("\n", "-" * 79)
     response = input("Welcome to Mailroom Madness\n"
         "\nChoose from the following:"
         "\nT - Send a (T)hank You and Print E-Mail"
         "\nR - Create a (R)eport"
-        "\nquit - Quit the program\n> ")
+        "\nquit - Quit the program\n\n> ")
     response = response.lower()[:1]
     # input only cares about the first letter
     if (response == "q"):
@@ -33,9 +32,10 @@ def startup_boot():
 
 def thank_you():
     """Allows you to add entries contact list"""
+    print("\n", "-" * 79)
     donor = input("Please enter a name, or choose from the following:"
-        "list - Print a list of previous donors"
-        "quit - Return to main menu\n> ")
+        "\nlist - Print a list of previous donors"
+        "\nquit - Return to main menu\n\n> ")
     if (donor.lower() == "q" or donor.lower() == "quit"):
         startup_boot()
     elif (donor.lower() == "l" or donor.lower() == "list"):
@@ -60,11 +60,11 @@ def print_letter(donor, cash):
     print("Constructing letter...")
     print("-" * 79)
     print ("Dear %s,\n\n"
-        "Thank you so much for your kind donation of $%.2f. We here at"
+        "Thank you so much for your kind donation of %s. We here at"
         "the Foundation for Homeless Whales greatly appreciate it. Your "
         "money will go towards creating new oceans on the moon for whales to "
         "live in.\n\nThanks again,\n\nJim Grant\n\nDirector, F.H.W."
-        % (donor, cash))
+        % (donor, money_formatter(cash)))
     input("Press Enter to continue...")
 
 
@@ -73,7 +73,8 @@ def process_cash(donor):
     cash = "cash"
     while (not cash.replace('.', '', 1).isdigit()):
         # While loop activates if "cash" isn't an interget or decimal
-        cash = input("Please enter a donation amount or 'quit':\n> $")
+        print("\n", "-" * 79)
+        cash = input("Please enter a donation amount or 'quit':\n\n> $")
         if (cash.lower()[:1] == "q"):
             quit()
         if (cash.lower()[:1] == "u"):
@@ -101,19 +102,16 @@ def process_cash(donor):
 
 def money_formatter(amount):
     """Format dollar amount as a formatted string with whole dollars"""
-    if (type(amount) == str):
-        return spaces_formatter(16, amount)
-        # This is so I can use a regular string in the title bar
-    amount = "$" + str(int(amount))
+    amount = "$%.2f" % amount
     # rounds the amount to an integer, then converts it to a string
-    if (len(amount) > 4):
-        amount = amount[:-3] + "," + amount[-3:]
-    if (len(amount) > 8):
-        amount = amount[:-7] + "," + amount[-7:]
-    if (len(amount) > 12):
-        amount = amount[:-11] + "," + amount[-11:]
+    if (len(amount) > 7):
+        amount = amount[:-6] + "," + amount[-6:]
+    if (len(amount) > 11):
+        amount = amount[:-10] + "," + amount[-10:]
+    if (len(amount) > 15):
+        amount = amount[:-14] + "," + amount[-14:]
+    return amount
         # adds commas when appropriate
-    return spaces_formatter(16, amount)
 
 
 def spaces_formatter(total, string):
@@ -127,7 +125,7 @@ def spaces_formatter(total, string):
     return string
 
 
-def report_line(name, total, number, average):
+def report_line_old(name, total, number, average):
     """Takes raw inputs, calls on the formatters, and generates a line"""
     name = spaces_formatter(32, name)
     total = money_formatter(total)
@@ -136,11 +134,20 @@ def report_line(name, total, number, average):
     print(name, "|", total, "|", number, "|", average)
 
 
+def report_line(name, total, number, average):
+    """Takes raw inputs, calls on the formatters, and generates a line"""
+    name = name
+    total = money_formatter(total)
+    number = 6, number
+    average = money_formatter(average)
+    print(name, "\t|", total, "\t|", number, "\t|", average)
+
+
 def generate_report():
     """Generates report of past donations"""
     contacts_total = {}
     print("-" * 79)
-    report_line("Name:", "$Total", "#", "$Average")
+    print("Name: |".rjust(25), "$Total: |".rjust(20), "#: |".rjust(10), "$Average: |".rjust(20))
     # Prints out the title bar
     sorted_list = []
     # declares blank dictionary and list
@@ -159,7 +166,12 @@ def generate_report():
         donations_total = contacts_total[name]
         donations_number = len(contacts[name])
         donations_average = (donations_total / donations_number)
-        report_line(name, donations_total, donations_number, donations_average)
+        donations_total = money_formatter(donations_total)[:-3] + " |"
+        donations_number = str(donations_number) + " |"
+        donations_average = money_formatter(donations_average)[:-3] + " |"
+        name = name  + " |"
+        print(name.rjust(25), donations_total.rjust(20),
+            donations_number.rjust(10), donations_average.rjust(20))
         # for each name in the list, we generate a line
     startup_boot()
 
