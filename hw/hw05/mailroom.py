@@ -90,6 +90,7 @@ def process_cash(donor):
         contacts[donor].append(cash)
         # adds cash donation to donor history
         print_letter(donor, cash)
+        input("Press Enter to continue...")
         startup_boot()
         # calls print function, using donor and cash as arguments
 
@@ -106,13 +107,12 @@ def print_letter(donor, cash):
     print("-" * 79)
     print("Constructing letter...")
     print("-" * 79)
-    print ("Dear %s,\n\n"
-        "Thank you so much for your kind donation of %s. We here at"
-        "the Foundation for Homeless Whales greatly appreciate it. Your "
-        "money will go towards creating new oceans on the moon for whales to "
-        "live in.\n\nThanks again,\n\nJim Grant\n\nDirector, F.H.W."
-        % (donor, money_formatter(cash)))
-    input("Press Enter to continue...")
+    print ("Dear {0},\n\n"
+        "Thank you so much for your kind donation of {1}. We here at the "
+        "Foundation for Homeless Whales greatly appreciate it. Your money "
+        "will go towards creating new oceans on the moon for whales to live"
+        "in.\n\nThanks again,\n\nJim Grant\n\nDirector, F.H.W.".format(
+        donor, money_formatter(cash)))
 
 
 def money_formatter(amount):
