@@ -2,8 +2,8 @@ contacts = {
     # constructing the contacts
     "Abe": [1, 2, 3],
     "Bob": [6, 7, 200],
-    "Carl": [11]
-    "Dave": [545545, 34325]
+    "Carl": [11],
+    "Dave": [545545, 34325],
     "Eddie": [34, 656, 453, 34]
 }
 
@@ -39,10 +39,7 @@ def thank_you():
     if (donor.lower() == "q" or donor.lower() == "quit"):
         startup_boot()
     elif (donor.lower() == "l" or donor.lower() == "list"):
-        print("----------------------------")
-        for donor in sorted(contacts):
-            # sorted command provides names in alphabetical order
-            print(donor)
+        donor_list()
         thank_you()
     elif (donor in contacts):
         pass
@@ -51,7 +48,57 @@ def thank_you():
         contacts.update({donor: []})
         # Lets user know that new entry was added
     process_cash(donor)
-    startup_boot()
+
+
+def donor_list():
+    print("-" * 79)
+    for donor in sorted(contacts):
+        # sorted command provides names in alphabetical order
+        print(donor)
+
+def process_cash(donor):
+    """Checks the donation, gives user the chance to back out"""
+    cash = "cash123!"
+    while (not cash.replace('.', '', 1).isdigit()):
+        # While loop activates if "cash" isn't an interget or decimal
+        print("\n", "-" * 79)
+        cash = input("Please enter a donation amount for %s, "
+            "switch to different donor, or 'quit':\n\n> $" % donor)
+        if (cash.lower() == "q" or cash.lower() == "quit"):
+            delete_new_donor(donor)
+            startup_boot()
+        elif (cash.lower() == "l" or cash.lower() == "list"):
+            donor_list()
+            process_cash(donor)
+        elif (cash.replace('.', '').isalpha()):
+            delete_new_donor(donor)
+            if (cash in contacts):
+                process_cash(cash)
+                # confirms that user made right choice
+            else:
+                contacts.update({cash: []})
+                process_cash(cash)
+        elif (not cash.replace('.', '', 1).isdigit()):
+            print("Invalid Entry")
+            # Error message if the final entry is not a number
+    cash = float(cash)
+    if ((cash * 100) % 1 != 0):
+        # rejects entry if there are too many decimal places, i.e., "$43.433"
+        print("Invalid Entry")
+        process_cash(donor)
+    else:
+        contacts[donor].append(cash)
+        # adds cash donation to donor history
+        print_letter(donor, cash)
+        startup_boot()
+        # calls print function, using donor and cash as arguments
+
+
+def delete_new_donor(donor):
+    if (not contacts[donor]):
+        del contacts[donor]
+        print(donor, "deleted from contacted list")
+        # removes donor from contacts if user changes mind
 
 
 def print_letter(donor, cash):
@@ -68,38 +115,6 @@ def print_letter(donor, cash):
     input("Press Enter to continue...")
 
 
-def process_cash(donor):
-    """Checks the donation, gives user the chance to back out"""
-    cash = "cash"
-    while (not cash.replace('.', '', 1).isdigit()):
-        # While loop activates if "cash" isn't an interget or decimal
-        print("\n", "-" * 79)
-        cash = input("Please enter a donation amount or 'quit':\n\n> $")
-        if (cash.lower()[:1] == "q"):
-            quit()
-        if (cash.lower()[:1] == "u"):
-            if (contacts[donor]):
-                pass
-            else:
-                del contacts[donor]
-                print(donor, "deleted from contacted list")
-                # removes donor from contacts if user changes mind
-            thank_you()
-        if (not cash.replace('.', '', 1).isdigit()):
-            print("Invalid Entry")
-            # Error message if the final entry is not a number
-    cash = float(cash)
-    if ((cash * 100) % 1 != 0):
-        # rejects entry if there are too many decimal places, i.e., "$43.433"
-        print("Invalid Entry")
-        process_cash(donor)
-    else:
-        contacts[donor].append(cash)
-        # adds cash donation to donor history
-        print_letter(donor, cash)
-        # calls print function, using donor and cash as arguments
-
-
 def money_formatter(amount):
     """Format dollar amount as a formatted string with whole dollars"""
     amount = "$%.2f" % amount
@@ -113,34 +128,6 @@ def money_formatter(amount):
     return amount
         # adds commas when appropriate
 
-
-def spaces_formatter(total, string):
-    """Adds spaces so that  strings will take up fixed amount of space"""
-    string = str(string)
-    limit = total - 2
-    if (len(string) > limit):
-        string = string[:limit]
-        # This is in case of a very, very long name
-    string = ((total - len(string)) * " ") + string
-    return string
-
-
-def report_line_old(name, total, number, average):
-    """Takes raw inputs, calls on the formatters, and generates a line"""
-    name = spaces_formatter(32, name)
-    total = money_formatter(total)
-    number = spaces_formatter(6, number)
-    average = money_formatter(average)
-    print(name, "|", total, "|", number, "|", average)
-
-
-def report_line(name, total, number, average):
-    """Takes raw inputs, calls on the formatters, and generates a line"""
-    name = name
-    total = money_formatter(total)
-    number = 6, number
-    average = money_formatter(average)
-    print(name, "\t|", total, "\t|", number, "\t|", average)
 
 
 def generate_report():
