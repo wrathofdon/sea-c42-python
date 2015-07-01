@@ -23,11 +23,11 @@ def startup_boot():
     elif (response == "t"):
         thank_you()
     elif (response == "r"):
-        generate_report()
+        generate_report("Total")
     else:
         print("Invalid entry.")
-        startup_boot()
-        # program reboots with invalid entry
+    startup_boot()
+        # program reboots if entry is invalid
 
 
 def thank_you():
@@ -39,48 +39,53 @@ def thank_you():
     if (donor.lower() == "q" or donor.lower() == "quit"):
         startup_boot()
     elif (donor.lower() == "l" or donor.lower() == "list"):
-        donor_list()
+        generate_report("name")
         thank_you()
+        # After list is presented, the prompt repeats itself
     elif (donor in contacts):
         pass
-        # confirms that user made right choice
     else:
         contacts.update({donor: []})
-        # Lets user know that new entry was added
+        # Donor is added to contacts list if they are not there already
     process_cash(donor)
 
 
 def donor_list():
+    """Prints out every donor name in contact list"""
     print("-" * 79)
     for donor in sorted(contacts):
         # sorted command provides names in alphabetical order
         print(donor)
 
+
 def process_cash(donor):
-    """Checks the donation, gives user the chance to back out"""
+    """Checks the donation, gives user the chance to change names"""
     cash = "cash123!"
     while (not cash.replace('.', '', 1).isdigit()):
         # While loop activates if "cash" isn't an interget or decimal
         print("\n", "-" * 79)
-        cash = input("Please enter a donation amount for %s, "
-            "switch to different donor, or 'quit':\n\n> $" % donor)
+        cash = input("Please enter a donation amount for %s, list donors, "
+            "switch to different a donor, or 'quit':\n\n> $" % donor)
         if (cash.lower() == "q" or cash.lower() == "quit"):
             delete_new_donor(donor)
             startup_boot()
         elif (cash.lower() == "l" or cash.lower() == "list"):
-            donor_list()
+            generate_report("name")
             process_cash(donor)
         elif (cash.replace('.', '').isalpha()):
+            # Assumes that cash input is a donor if there are no digits
             delete_new_donor(donor)
+            # Deletes current donor from contacts if donor is new
             if (cash in contacts):
-                process_cash(cash)
-                # confirms that user made right choice
+                pass
             else:
                 contacts.update({cash: []})
-                process_cash(cash)
+                # if cash input is a new donor, then we update the contacts
+            process_cash(cash)
+            # We now reset the cash prompt with a new donor
         elif (not cash.replace('.', '', 1).isdigit()):
             print("Invalid Entry")
-            # Error message if the final entry is not a number
+            # Finally, error message if the final entry is not a number
     cash = float(cash)
     if ((cash * 100) % 1 != 0):
         # rejects entry if there are too many decimal places, i.e., "$43.433"
@@ -97,9 +102,9 @@ def process_cash(donor):
 
 def delete_new_donor(donor):
     if (not contacts[donor]):
+        # Returns "True" if donor has no prior donation history
         del contacts[donor]
-        print(donor, "deleted from contacted list")
-        # removes donor from contacts if user changes mind
+        print(donor, "deleted from contacts list")
 
 
 def print_letter(donor, cash):
@@ -116,7 +121,7 @@ def print_letter(donor, cash):
 
 
 def money_formatter(amount):
-    """Format dollar amount as a formatted string with whole dollars"""
+    """Format dollar amount as a formatted string with $ and commas"""
     amount = "$%.2f" % amount
     # rounds the amount to an integer, then converts it to a string
     if (len(amount) > 7):
@@ -130,7 +135,7 @@ def money_formatter(amount):
 
 
 
-def generate_report():
+def generate_report(sort_method):
     """Generates report of past donations"""
     contacts_total = {}
     print("-" * 79)
@@ -143,11 +148,15 @@ def generate_report():
         # For each entry in original contacts, we now add a new dictionary
         # entry in the contacts_total.  contacts_total entries still have the
         # same key. but the value is a total sum rather than a list of entries.
-    for item in sorted(contacts_total.items(), key=lambda x: x[1]):
-        sorted_list.append(item[0])
-        # Code sorts the contacts_total dictionary, then iterates through them.
-        # For each iteration, it adds the name of the key to sort_list, which
-        # we use to determine the order for the next step.
+    if (sort_method == "name"):
+        for donor in sorted(contacts):
+            sorted_list.append(donor)
+    else:
+        for item in sorted(contacts_total.items(), key=lambda x: x[1]):
+            sorted_list.append(item[0])
+            # Code sorts the contacts_total dictionary, then iterates through them.
+            # For each iteration, it adds the name of the key to sort_list, which
+            # we use to determine the order for the next step.
     print("-" * 79)
     for name in sorted_list:
         donations_total = contacts_total[name]
@@ -160,7 +169,6 @@ def generate_report():
         print(name.rjust(25), donations_total.rjust(20),
             donations_number.rjust(10), donations_average.rjust(20))
         # for each name in the list, we generate a line
-    startup_boot()
 
 
 startup_boot()
