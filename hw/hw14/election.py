@@ -1,4 +1,4 @@
-# Name: ...
+# Name: Don Pham
 # CodeFellows Python F2: SEA-C42
 # Homework 14: Election prediction
 
@@ -28,12 +28,21 @@ def row_to_edge(row):
     """
     return float(row["Dem"]) - float(row["Rep"])
 
+
 def state_edges(election_result_rows):
     """
     Given a list of *ElectionDataRow*s, returns *StateEdge*s.
     The input list has no duplicate *States*;
     that is, each *State* is represented at most once in the input list.
     """
+
+    d = {}
+    for row in election_result_rows:
+        state = row["State"]
+        dem = row["Dem"]
+        rep = row["Rep"]
+        d[state] = float(dem) - float(rep)
+        return d
     #TODO: Implement this function
     pass
 
@@ -172,7 +181,7 @@ def average_edge(pollster_edges, pollster_errors):
     Given *PollsterEdges* and *PollsterErrors*, returns the average
     of these *Edge*s weighted by their respective *PollsterErrors*.
     """
-    #TODO: Implement this function
+    # TODO: Implement this function
     pass
 
 
@@ -186,7 +195,7 @@ def predict_state_edges(pollster_predictions, pollster_errors):
     *PollsterErrors* from a past election,
     returns the predicted *StateEdges* of the current election.
     """
-    #TODO: Implement this function
+    # TODO: Implement this function
     pass
 
 

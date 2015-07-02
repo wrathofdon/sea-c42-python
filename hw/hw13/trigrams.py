@@ -1,23 +1,42 @@
 from random import randint
 
-fileref = open("sherlock-small_txt.txt", "r")
+# fileref = open("sherlock-small_txt.txt", "r")
+fileref = open("sherlock.txt", "r")
 text = fileref.readlines()
 fileref.close
+
+
+def remove_header(line_text):
+    scan = len(line_text)
+    i = 0
+    while (text[i][0:scan] != line_text):
+        text[i] = " "
+        i += 1
+
+
+remove_header("To Sherlock Holmes she")
+
+
 d = {}
-
-
+# create empty dictionary for trigrams
 text = " ".join(text)
 text = text.split()
+# convert text to string, the split it into list of individual words
 output = [text[0], text[1]]
-length = 500
+# output starts with first two words as novel.
 
-for word in range(len(text) - 2):
-    key = (text[word], text[word + 1])
-    third = text[word + 2]
-    if (key not in d):
-        d.update({key: [third]})
-    else:
-        d[key].append(third)
+
+
+def generate_keys():
+    for word in range(len(text) - 2):
+        key = (text[word], text[word + 1])
+        third = text[word + 2]
+        # each trigram combines three words
+        if (key not in d):
+            d.update({key: [third]})
+        else:
+            d[key].append(third)
+        # We add the word paid to the dictionary if it's not already there.
 
 
 def final_key(final):
@@ -39,14 +58,17 @@ def final_key(final):
                 pass
 
 
-final = (text[-2], text[-1])
-if (final not in d):
-    final_key(final)
+def output_story(length):
+    for i in range(length):
+        key = (output[i], output[i + 1])
+        if (key not in d):
+            final_key(key)
+            # Key will be automatically generated if it isn't already available
+        choices = d[key]
+        third = choices[randint(0, len(choices) - 1)]
+        output.append(third)
+    return(" ".join(output))
 
-for i in range(length):
-    key = (output[i], output[i + 1])
-    choices = d[key]
-    third = choices[randint(0, len(choices) - 1)]
-    output.append(third)
 
-print(" ".join(output))
+generate_keys()
+print(output_story(500))
