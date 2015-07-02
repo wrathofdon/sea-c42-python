@@ -210,6 +210,7 @@ def average_error_to_weight(error):
 # previous election.
 DEFAULT_AVERAGE_ERROR = 5.0
 
+
 def pollster_to_weight(pollster, pollster_errors):
     """"
     Given a *Pollster* and a *PollsterErrors*,
@@ -235,8 +236,15 @@ def weighted_average(items, weights):
     """
     assert len(items) > 0
     assert len(items) == len(weights)
-    #TODO: Implement this function
-    pass
+    num = 0
+    den = 0
+    for i in range(len(items)):
+        num += items[i] * weights[i]
+        den += weights[i]
+    return num / den
+
+    # TODO: Implement this function
+    # pass
 
 
 def average_edge(pollster_edges, pollster_errors):
@@ -245,7 +253,19 @@ def average_edge(pollster_edges, pollster_errors):
     of these *Edge*s weighted by their respective *PollsterErrors*.
     """
     # TODO: Implement this function
-    pass
+    # pass
+
+    pollster = list(pollster_edges.keys())
+    edges = []
+    weights = []
+    for poll in pollster:
+        weight = 0.04
+        if (poll in pollster_errors):
+            weight = average_error_to_weight(pollster_errors[poll])
+        edges.append(pollster_edges[poll])
+        weights.append(weight)
+    return weighted_average(edges, weights)
+
 
 
 ################################################################################
