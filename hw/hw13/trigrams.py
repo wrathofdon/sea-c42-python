@@ -1,6 +1,6 @@
 from random import randint
 
-fileref = open("sherlock-small_txt.txt", "r")
+fileref = open("sherlock.txt", "r")
 text = fileref.readlines()
 d = {}
 fileref.close
@@ -9,7 +9,7 @@ fileref.close
 text = " ".join(text)
 text = text.split()
 output = [text[0], text[1]]
-length = 500
+length = 50
 
 for word in range(len(text) - 2):
     key = (text[word], text[word + 1])
@@ -19,6 +19,9 @@ for word in range(len(text) - 2):
     else:
         d[key].append(third)
 
+
+"""
+I'm trying to figure out how to get this part to work.
 
 def final_key():
     final = (text[-2], text[-1])
@@ -36,7 +39,7 @@ def final_key():
             final_key()
 
 
-final_key()
+final_key()"""
 
 for i in range(length):
     key = (output[i], output[i + 1])
