@@ -182,8 +182,17 @@ def pivot_nested_dict(nested_dict):
                 'x': {'a': 1, 'b': 3},
                 'z': {'b': 4} }
     """
-     #TODO: Implement this function
-    pass
+    abc = list(nested_dict.keys())
+    d = {}
+    for a in abc:
+        xyz = list(nested_dict[a].keys())
+        for x in xyz:
+            d.setdefault(x, {})
+            d[x].update({a: nested_dict[a][x]})
+    return d
+
+    # TODO: Implement this function
+    # pass
 
 
 ################################################################################
