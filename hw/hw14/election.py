@@ -105,17 +105,19 @@ def pollster_predictions(poll_rows):
         i += 1
         row.update({"ID": i})
         # The first step is to give all polls a unique ID key
-        edge_index.update({i: state_edges(row)})
+        edge_index.update({i: state_edges([row])})
         # We also need  to map ID key to state edge
     predict = {}
     poll_unq = unique_column_values(poll_rows, "Pollster")
-    state_unq = unique_column_values(poll_rows, "Pollster")
+    state_unq = unique_column_values(poll_rows, "State")
     for pollster in poll_unq:
         predict.update({pollster: {}})
         for state in state_unq:
-            index = most_recent_poll_row(d, pollster, state)
-            edge = edge_index[index]
-            predict[pollster].update(edge)
+            recent = most_recent_poll_row(d, pollster, state)
+            if (recent):
+                index = recent["ID"]
+                edge = edge_index[index]
+                predict[pollster].update(edge)
     return predict
 
     # TODO: Implement this function
