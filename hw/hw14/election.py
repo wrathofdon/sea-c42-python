@@ -135,25 +135,32 @@ def average_error(state_edges_predicted, state_edges_actual):
     """
     states = list(state_edges_actual.keys())
     total = 0
-    number = len(states)
-    for state in states:
-        diff = abs(state_edges_predicted[state] - state_edges_actual[state])
+    number = 0
+    for s in states:
+        diff = 0
+        if (s in state_edges_predicted):
+            diff = abs(state_edges_predicted[s] - state_edges_actual[s])
+            number += 1
         total += diff
     return total / number
 
-
-
-
     # TODO: Implement this function
     # pass
+
 
 def pollster_errors(pollster_predictions, state_edges_actual):
     """
     Given *PollsterPredictions* and actual *StateEdges*,
     retuns *PollsterErrors*.
     """
-    #TODO: Implement this function
-    pass
+    pollsters = list(pollster_predictions.keys())
+    d = {}
+    for poll in pollsters:
+        result = average_error(pollster_predictions[poll], state_edges_actual)
+        d.update({poll: result})
+    return d
+    # TODO: Implement this function
+    # pass
 
 
 ################################################################################
