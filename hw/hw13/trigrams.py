@@ -9,7 +9,7 @@ fileref.close
 text = " ".join(text)
 text = text.split()
 output = [text[0], text[1]]
-length = 50
+length = 500
 
 for word in range(len(text) - 2):
     key = (text[word], text[word + 1])
