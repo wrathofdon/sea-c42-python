@@ -1,9 +1,9 @@
 from random import randint
 
-fileref = open("sherlock.txt", "r")
+fileref = open("sherlock-small_txt.txt", "r")
 text = fileref.readlines()
-d = {}
 fileref.close
+d = {}
 
 
 text = " ".join(text)
@@ -20,26 +20,28 @@ for word in range(len(text) - 2):
         d[key].append(third)
 
 
-"""
-I'm trying to figure out how to get this part to work.
-
-def final_key():
-    final = (text[-2], text[-1])
-    if (final in d):
+def final_key(final):
+    last_word = final[1]
+    index = text.index(last_word)
+    if (index != len(text) - 1):
+        d.update({final: text[index + 1]})
         return
     else:
         d2 = d.copy()
-        tupal = ("false", "false")
         for tupal in d2:
-            if (tupal[0][:1].isupper()):
-                print(tupal)
-                d.update({final: tupal[0]})
-                d.update({(text[-1], tupal[0]): tupal[1]})
-        else:
-            final_key()
+            if (tupal[0][:1].isupper() and tupal[0] != "I"):
+                d.update({final: [tupal[0]]})
+                d.update({(final[1], tupal[0]): [tupal[1]]})
+                print("final: ", final, tupal[0], tupal[1])
+                print("final2: ", d[final])
+                return
+            else:
+                pass
 
 
-final_key()"""
+final = (text[-2], text[-1])
+if (final not in d):
+    final_key(final)
 
 for i in range(length):
     key = (output[i], output[i + 1])
