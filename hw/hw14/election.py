@@ -39,12 +39,10 @@ def state_edges(election_result_rows):
     d = {}
     for row in election_result_rows:
         state = row["State"]
-        dem = row["Dem"]
-        rep = row["Rep"]
-        d[state] = float(dem) - float(rep)
-        return d
-    #TODO: Implement this function
-    pass
+        d[state] = row_to_edge(row)
+    return d
+    # TODO: Implement this function
+    # pass
 
 
 ################################################################################
