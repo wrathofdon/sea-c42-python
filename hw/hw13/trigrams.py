@@ -5,13 +5,11 @@ text = fileref.readlines()
 d = {}
 fileref.close
 
-length = 500
 
 text = " ".join(text)
 text = text.split()
-final = [text[0], text[1]]
-final_text = text[0] + " " + text[1]
-
+output = [text[0], text[1]]
+length = 500
 
 for word in range(len(text) - 2):
     key = (text[word], text[word + 1])
@@ -21,15 +19,29 @@ for word in range(len(text) - 2):
     else:
         d[key].append(third)
 
-for i in range(length):
-    key = (final[i], final[i + 1])
-    next_invalid = True
-    while (next_invalid):
-        choices = d[key]
-        third = choices[randint(0, len(choices) - 1)]
-        next_key = (final[i + 1], third)
-        next_invalid = (next_key not in d)
-    final.append(third)
-    final_text = final_text + " " + third
 
-print(final_text)
+def final_key():
+    final = (text[-2], text[-1])
+    if (final in d):
+        return
+    else:
+        d2 = d.copy()
+        tupal = ("false", "false")
+        for tupal in d2:
+            if (tupal[0][:1].isupper()):
+                print(tupal)
+                d.update({final: tupal[0]})
+                d.update({(text[-1], tupal[0]): tupal[1]})
+        else:
+            final_key()
+
+
+final_key()
+
+for i in range(length):
+    key = (output[i], output[i + 1])
+    choices = d[key]
+    third = choices[randint(0, len(choices) - 1)]
+    output.append(third)
+
+print(" ".join(output))
