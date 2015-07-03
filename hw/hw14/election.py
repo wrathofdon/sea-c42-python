@@ -40,6 +40,7 @@ def state_edges(election_result_rows):
     for row in election_result_rows:
         state = row["State"]
         d[state] = row_to_edge(row)
+        # all this does is process each row through the earlier function
     return d
     # TODO: Implement this function
     # pass
@@ -56,17 +57,23 @@ def earlier_date(date1, date2):
     """
     return (time.strptime(date1, "%b %d %Y") < time.strptime(date2, "%b %d %Y"))
 
+
 def most_recent_poll_row(poll_rows, pollster, state):
     """
     Given a list of *PollDataRow*s, returns the most recent row with the
     specified *Pollster* and *State*. If no such row exists, returns None.
     """
     recent = "Jan 01 1950"
+    # Program compares for most recent date, so starting dates is the 1950s
     recent_x = None
+    # returns "None" by default if no newer date is found
     for x in poll_rows:
         if (x["Pollster"] == pollster and x["State"] == state and earlier_date(recent, x["Date"])):
+            # Programs needs a matching poll/state AND a newer date
             recent = x["Date"]
+            # once newer date is found, we set a new baseline
             recent_x = x
+            # afterwards, the entire row is recorded
         else:
             pass
     return recent_x
@@ -86,6 +93,7 @@ def unique_column_values(rows, column_name):
     s = set()
     for x in rows:
         s.update([x[column_name]])
+        # Adds all items to set.  Sets automaticaly ignore re
     return s
 
 
@@ -99,25 +107,36 @@ def pollster_predictions(poll_rows):
     For a given pollster, uses only the most recent poll for a state.
     """
     d = poll_rows.copy()
+    # We will be making a dictionary copy we can modify
     i = 0
     edge_index = {}
-    for row in poll_rows:
+    # This dictionary will map out a poll ID numbers to the state edge
+    for row in d:
         i += 1
         row.update({"ID": i})
-        # The first step is to give all polls a unique ID key
+        # The first step is to give each poll a unique ID key
         edge_index.update({i: state_edges([row])})
-        # We also need  to map ID key to state edge
+        # We also need to map ID key to state edge
     predict = {}
+    # this dictionary will serve as the return value
     poll_unq = unique_column_values(poll_rows, "Pollster")
     state_unq = unique_column_values(poll_rows, "State")
+    # These two lists cover all the polls and all the states
     for pollster in poll_unq:
         predict.update({pollster: {}})
+        # We create a new key for each pollster
         for state in state_unq:
+            # for each pollsters, we go over the states they've polls
             recent = most_recent_poll_row(d, pollster, state)
+            # We call a function so we can find newest poll
             if (recent):
+                # Returns "False" if no poll for this state can be found
                 index = recent["ID"]
+                # Once newest poll is found, we find the ID
                 edge = edge_index[index]
+                # We then use the ID to find the edge
                 predict[pollster].update(edge)
+                # The new state edge data is added to the pollster
     return predict
 
     # TODO: Implement this function
@@ -183,12 +202,17 @@ def pivot_nested_dict(nested_dict):
                 'z': {'b': 4} }
     """
     abc = list(nested_dict.keys())
+    # we start by creating a list of keys, which will later be nested
     d = {}
+    # create empty dictionary
     for a in abc:
         xyz = list(nested_dict[a].keys())
+        # We then make a list of nested keys to make a new pivot key
         for x in xyz:
             d.setdefault(x, {})
+            # THe pivot key is only created if it doesn't already exist.
             d[x].update({a: nested_dict[a][x]})
+            # Afterwards,  we add the original nested value back in
     return d
 
     # TODO: Implement this function
@@ -256,26 +280,23 @@ def average_edge(pollster_edges, pollster_errors):
     # pass
 
     pollster = list(pollster_edges.keys())
+    # First we gather a list of pollsters
     edges = []
     weights = []
     for poll in pollster:
+        # We go through the name of every pollster on the list
         weight = 0.04
+        # If no history is provided, we use 1/25 as the default
         if (poll in pollster_errors):
+            # Weight is only calculated if we have data to work with
             weight = average_error_to_weight(pollster_errors[poll])
         edges.append(pollster_edges[poll])
         weights.append(weight)
+        # We then add to the lists of edges and weights
     return weighted_average(edges, weights)
+    # Finally we average
 
 
-def test_average_edge():
-    assert(average_edge({"p1":3, "p2":4, "p3":5}, {"p1":1, "p2":1, "p3":1}) == 4)
-    assert(average_edge({"p1":3, "p2":4, "p3":5}, {"p1":1, "p2":1, "p3":1, "p4":2, "p5": -8}) == 4)
-    assert(average_edge({"p1":3, "p2":4}, {"p1":1, "p2":1}) == 3.5)
-    assert(average_edge({"p1":2, "p2":4, "p3":4, "p4":6}, {"p1":1, "p2":1, "p3":1, "p4":5}) == 3.3684210526315788)
-    assert(average_edge({"p1":1, "p2":2, "p3":3, "p4":4, "p5":5},
-                        {"p1":1, "p2":2, "p3":3, "p4":4, "p5":5}) == 1.560068324160182)
-    assert(average_edge({"p1":3, "p2":4, "p3":5}, {"p1":5, "p2":5}) == 4)
-    assert(average_edge({"p1":3, "p2":4, "p3":5}, {}) == 4)
 
 ################################################################################
 # Problem 7: Predict the 2012 election
@@ -291,27 +312,15 @@ def predict_state_edges(pollster_predictions, pollster_errors):
     state_pivot = pivot_nested_dict(pollster_predictions)
     # pivots dictionary of states
     states = list(state_pivot.keys())
+    # creates a list of states
     d = {}
     for state in states:
         average = average_edge(state_pivot[state], pollster_errors)
+        # we then run individual states through the average_edge() function
         d.update({state: average})
     return d
-    # each piv is l
     # TODO: Implement this function
     # pass
-
-
-
-
-def test_predict_state_edges():
-    pollster_predictions = {
-      'PPP': { 'WA': -11.2, 'CA': -2.0, 'ID': -1.1 },
-      'IPSOS': { 'WA': -8.7, 'CA': -3.1, 'ID': 4.0 },
-      'SurveyUSA': { 'WA': -9.0, 'FL': 0.5 },
-      }
-    pollster_errors = {'PPP': 1.2, 'IPSOS': 4.0, 'SurveyUSA':3.5, 'NonExistant':100.0}
-    assert(predict_state_edges(pollster_predictions, pollster_errors) == {'CA':
-    -2.0908256880733944, 'FL': 0.5, 'ID': -0.6788990825688075, 'WA': -10.799509886766941})
 
 
 
@@ -343,18 +352,6 @@ def electoral_college_outcome(ec_rows, state_edges):
             outcome["Rep"] += votes/2.0
     return outcome
 
-
-def test_electoral_college_outcome():
-electoral_college = [
-    {'State': 'AK', 'Name': 'Alaska', 'Electors': 2, 'Population': 710000},
-    {'State': 'AL', 'Name': 'Alabama', 'Electors': 8, 'Population': 4780000},
-    {'State': 'AR', 'Name': 'Arkansas', 'Electors': 4, 'Population': 2916000}
-]
-state_edges = {'AK': -4.0, 'AL': 2.0, 'AR': 1.0}
-assert(electoral_college_outcome(electoral_college, state_edges) == {'Rep': 2.0, 'Dem': 12.0})
-
-state_edges = {'AK': -4.0, 'AL': 0.0, 'AR': 1.0}
-assert(electoral_college_outcome(electoral_college, state_edges) == {'Rep': 6.0, 'Dem': 8.0})
 
 
 
