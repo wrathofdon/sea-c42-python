@@ -267,10 +267,20 @@ def average_edge(pollster_edges, pollster_errors):
     return weighted_average(edges, weights)
 
 
+def test_average_edge():
+    assert(average_edge({"p1":3, "p2":4, "p3":5}, {"p1":1, "p2":1, "p3":1}) == 4)
+    assert(average_edge({"p1":3, "p2":4, "p3":5}, {"p1":1, "p2":1, "p3":1, "p4":2, "p5": -8}) == 4)
+    assert(average_edge({"p1":3, "p2":4}, {"p1":1, "p2":1}) == 3.5)
+    assert(average_edge({"p1":2, "p2":4, "p3":4, "p4":6}, {"p1":1, "p2":1, "p3":1, "p4":5}) == 3.3684210526315788)
+    assert(average_edge({"p1":1, "p2":2, "p3":3, "p4":4, "p5":5},
+                        {"p1":1, "p2":2, "p3":3, "p4":4, "p5":5}) == 1.560068324160182)
+    assert(average_edge({"p1":3, "p2":4, "p3":5}, {"p1":5, "p2":5}) == 4)
+    assert(average_edge({"p1":3, "p2":4, "p3":5}, {}) == 4)
 
 ################################################################################
 # Problem 7: Predict the 2012 election
 ################################################################################
+
 
 def predict_state_edges(pollster_predictions, pollster_errors):
     """
@@ -278,8 +288,32 @@ def predict_state_edges(pollster_predictions, pollster_errors):
     *PollsterErrors* from a past election,
     returns the predicted *StateEdges* of the current election.
     """
+    state_pivot = pivot_nested_dict(pollster_predictions)
+    # pivots dictionary of states
+    states = list(state_pivot.keys())
+    d = {}
+    for state in states:
+        average = average_edge(state_pivot[state], pollster_errors)
+        d.update({state: average})
+    return d
+    # each piv is l
     # TODO: Implement this function
-    pass
+    # pass
+
+
+
+
+def test_predict_state_edges():
+    pollster_predictions = {
+      'PPP': { 'WA': -11.2, 'CA': -2.0, 'ID': -1.1 },
+      'IPSOS': { 'WA': -8.7, 'CA': -3.1, 'ID': 4.0 },
+      'SurveyUSA': { 'WA': -9.0, 'FL': 0.5 },
+      }
+    pollster_errors = {'PPP': 1.2, 'IPSOS': 4.0, 'SurveyUSA':3.5, 'NonExistant':100.0}
+    assert(predict_state_edges(pollster_predictions, pollster_errors) == {'CA':
+    -2.0908256880733944, 'FL': 0.5, 'ID': -0.6788990825688075, 'WA': -10.799509886766941})
+
+
 
 
 ################################################################################
@@ -308,6 +342,20 @@ def electoral_college_outcome(ec_rows, state_edges):
             outcome["Dem"] += votes/2.0
             outcome["Rep"] += votes/2.0
     return outcome
+
+
+def test_electoral_college_outcome():
+electoral_college = [
+    {'State': 'AK', 'Name': 'Alaska', 'Electors': 2, 'Population': 710000},
+    {'State': 'AL', 'Name': 'Alabama', 'Electors': 8, 'Population': 4780000},
+    {'State': 'AR', 'Name': 'Arkansas', 'Electors': 4, 'Population': 2916000}
+]
+state_edges = {'AK': -4.0, 'AL': 2.0, 'AR': 1.0}
+assert(electoral_college_outcome(electoral_college, state_edges) == {'Rep': 2.0, 'Dem': 12.0})
+
+state_edges = {'AK': -4.0, 'AL': 0.0, 'AR': 1.0}
+assert(electoral_college_outcome(electoral_college, state_edges) == {'Rep': 6.0, 'Dem': 8.0})
+
 
 
 def print_dict(dictionary):
