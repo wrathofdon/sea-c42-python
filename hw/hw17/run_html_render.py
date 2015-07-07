@@ -7,7 +7,7 @@ Uncomment the steps as you add to your rendering.
 
 """
 import codecs
-import cStringIO
+import io
 
 
 # importing the html_rendering code with a short name for easy typing.
@@ -22,12 +22,12 @@ def render(page, filename):
    write to file -- very handy!
    """
 
-   f = cStringIO.StringIO()
+   f = io.StringIO()
    page.render(f)
 
    f.reset()
 
-   print f.read()
+   print(f.read())
 
    f.reset()
    codecs.open(filename, 'w', encoding="utf-8").write( f.read() )
