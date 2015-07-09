@@ -2,9 +2,7 @@
 
 """
 a simple script can run and test your html rendering classes.
-
 Uncomment the steps as you add to your rendering.
-
 """
 import codecs
 import io
@@ -13,24 +11,21 @@ import io
 # importing the html_rendering code with a short name for easy typing.
 import html_render as hr
 
-## writing the file out:
+
+# writing the file out:
 def render(page, filename):
-   """
-   render the tree of elements
+    """
+    render the tree of elements
+    This uses cSstringIO to renderto memory, then dump to console and
+    write to file -- very handy!
+    """
 
-   This uses cSstringIO to renderto memory, then dump to console and
-   write to file -- very handy!
-   """
+    f = io.StringIO()
+    page.render(f)
 
-   f = io.StringIO()
-   page.render(filename)
+    print(f.getvalue())
 
-   # f.reset()
-
-   # print(f.read())
-
-   # f.reset()
-   # codecs.open(filename, 'w', encoding="utf-8").write( f.read() )
+    codecs.open(filename, 'w', encoding="utf-8").write(f.getvalue())
 
 
 ## Step 1
@@ -218,7 +213,3 @@ render(page, "test_html_output1.html")
 # page.append(body)
 
 # render(page, u"test_html_output8.html")
-
-
-
-
