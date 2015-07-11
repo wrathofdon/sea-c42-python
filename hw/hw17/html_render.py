@@ -69,14 +69,17 @@ class Head(Element):
         Element.__init__(self, "head", content, 1, kwargs)
 
 
-class Title(Element):
-
-    def __init__(self, content="", **kwargs):
-        Element.__init__(self, "title", content, 2, kwargs)
+class OneLineClass(Element):
 
     def render(self, file_out):
         file_out.write("\n%s<%s>%s</%s>" % (self.indent, self.tag1, \
             self.children[0], self.tag2))
+
+
+class Title(OneLineClass):
+
+    def __init__(self, content="", **kwargs):
+        Element.__init__(self, "title", content, 2, kwargs)
 
 
 class Hr(Element):
@@ -94,27 +97,24 @@ class Br(Hr):
         file_out.write("\n" + self.indent + "<br />")
 
 
+class A(OneLineClass):
+
+    def __init__(self, link="", content="", **kwargs):
+        kwargs.update({"href": link})
+        Element.__init__(self, "a", content, 2, kwargs)
+        print("Link")
 
 """
 
 
-        <hr />
+        And this is a
+        <a href="http://google.com">link</a>
+        to google
 
-page = hr.Html()
 
-head = hr.Head()
-head.append(hr.Title(u"PythonClass = Revision 1087:"))
 
-page.append(head)
+body.append(u"And this is a ")
+body.append( hr.A(u"http://google.com", "link") )
+body.append(u"to google")
 
-body = hr.Body()
-
-body.append(hr.P(u"Here is a paragraph of text -- there could be more of them, but this is enough  to show that we can do some text",
-              style=u"text-align: center; font-style: oblique;"))
-
-body.append(hr.Hr())
-
-page.append(body)
-
-render(page, u"test_html_output5.html")
 """
