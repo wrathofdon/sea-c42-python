@@ -11,8 +11,8 @@ Python class example.
 
 IND_LVL = "    "
 
+
 class Element(object):
-    tag = ""
 
     def __init__(self, tag="", content="", indent=0):
         self.tag = tag
@@ -31,9 +31,41 @@ class Element(object):
                 child.render(file_out)
         file_out.write("\n%s</%s>" % (self.indent, self.tag))
 
+
+class Html(Element):
+
+    def __init__(self, tag="", content="", indent=0):
+        Element.__init__(self, "html", "<DOCTYPE html>", 1)
+
+
+class Body(Element):
+
+    def __init__(self, tag="", content="", indent=0):
+        Element.__init__(self, "html", "", 2)
+
+
+class P(Element):
+
+    def __init__(self, tag="", content="", indent=0):
+        Element.__init__(self, "p", "", 2)
+
 """file_out.write("<DOCTYPE html>\n")
 Element.render(self, file_out, "")
 
+# ## Step 2
+# ##########
+
+page = hr.Html()
+
+body = hr.Body()
+
+body.append(hr.P("Here is a paragraph of text -- there could be more of them, but this is enough  to show that we can do some text"))
+
+body.append(hr.P("And here is another piece of text -- you should be able to add any number"))
+
+page.append(body)
+
+render(page, "test_html_output2.html")
 
 
 
