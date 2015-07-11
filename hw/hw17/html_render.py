@@ -21,6 +21,7 @@ class Element(object):
 
     def append(self, new_child):
         self.children.append(new_child)
+        print(self.tag)
 
     def render(self, file_out):
         file_out.write("\n%s<%s>" % (self.indent, self.tag))
@@ -35,19 +36,29 @@ class Element(object):
 class Html(Element):
 
     def __init__(self, tag="", content="", indent=0):
-        Element.__init__(self, "html", "<DOCTYPE html>", 1)
+        Element.__init__(self, "html", "", 0)
+
+    def render(self, file_out):
+        file_out.write("<!DOCTYPE html>")
+        file_out.write("\n%s<%s>" % (self.indent, self.tag))
+        for child in self.children:
+            if(type(child) == str):
+                file_out.write("\n" + self.indent + IND_LVL + child)
+            else:
+                child.render(file_out)
+        file_out.write("\n%s</%s>" % (self.indent, self.tag))
 
 
 class Body(Element):
 
     def __init__(self, tag="", content="", indent=0):
-        Element.__init__(self, "html", "", 2)
+        Element.__init__(self, "body", "", 1)
 
 
 class P(Element):
 
-    def __init__(self, tag="", content="", indent=0):
-        Element.__init__(self, "p", "", 2)
+    def __init__(self, content="", indent=0):
+        Element.__init__(self, "p", content, 2)
 
 """file_out.write("<DOCTYPE html>\n")
 Element.render(self, file_out, "")
