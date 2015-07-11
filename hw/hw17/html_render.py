@@ -79,9 +79,26 @@ class Title(Element):
             self.children[0], self.tag2))
 
 
+class Hr(Element):
+
+    def __init__(self):
+        Element.__init__(self, "", "", 2)
+
+    def render(self, file_out):
+        file_out.write("\n" + self.indent + "<hr />")
+
+
+class Br(Hr):
+
+    def render(self, file_out):
+        file_out.write("\n" + self.indent + "<br />")
+
+
 
 """
 
+
+        <hr />
 
 page = hr.Html()
 
@@ -95,7 +112,9 @@ body = hr.Body()
 body.append(hr.P(u"Here is a paragraph of text -- there could be more of them, but this is enough  to show that we can do some text",
               style=u"text-align: center; font-style: oblique;"))
 
+body.append(hr.Hr())
+
 page.append(body)
 
-render(page, u"test_html_output4.html")
+render(page, u"test_html_output5.html")
 """
