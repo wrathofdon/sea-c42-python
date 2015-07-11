@@ -76,21 +76,21 @@ render(page, u"test_html_output3.html")
 # # Step 4
 # ##########
 
-# page = hr.Html()
+page = hr.Html()
 
-# head = hr.Head()
-# head.append(hr.Title(u"PythonClass = Revision 1087:"))
+head = hr.Head()
+head.append(hr.Title(u"PythonClass = Revision 1087:"))
 
-# page.append(head)
+page.append(head)
 
-# body = hr.Body()
+body = hr.Body()
 
-# body.append(hr.P(u"Here is a paragraph of text -- there could be more of them, but this is enough  to show that we can do some text",
-#               style=u"text-align: center; font-style: oblique;"))
+body.append(hr.P(u"Here is a paragraph of text -- there could be more of them, but this is enough  to show that we can do some text",
+              style=u"text-align: center; font-style: oblique;"))
 
-# page.append(body)
+page.append(body)
 
-# render(page, u"test_html_output4.html")
+render(page, u"test_html_output4.html")
 
 # # Step 5
 # #########
