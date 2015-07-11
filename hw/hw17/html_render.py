@@ -9,6 +9,60 @@ Python class example.
 # Fill it all in here.
 
 
+IND_LVL = "    "
+
+class Element(object):
+    tag = ""
+
+    def __init__(self, tag="", content="", indent=0):
+        self.tag = tag
+        self.children = [content] if content else []
+        self.indent = IND_LVL * indent
+
+    def append(self, new_child):
+        self.children.append(new_child)
+
+    def render(self, file_out):
+        file_out.write("\n%s<%s>" % (self.indent, self.tag))
+        for child in self.children:
+            if(type(child) == str):
+                file_out.write("\n" + self.indent + IND_LVL + child)
+            else:
+                child.render(file_out)
+        file_out.write("\n%s</%s>" % (self.indent, self.tag))
+
+"""file_out.write("<DOCTYPE html>\n")
+Element.render(self, file_out, "")
+
+
+
+
+# # Step 6
+# #########
+
+# page = hr.Html()
+
+# head = hr.Head()
+# head.append(hr.Title(u"PythonClass = Revision 1087:"))
+
+# page.append(head)
+
+# body = hr.Body()
+
+# body.append(hr.P(u"Here is a paragraph of text -- there could be more of them, but this is enough  to show that we can do some text",
+#               style=u"text-align: center; font-style: oblique;"))
+
+# body.append(hr.Hr())
+
+# body.append(u"And this is a ")
+# body.append( hr.A(u"http://google.com", "link") )
+# body.append(u"to google")
+
+# page.append(body)
+
+# render(page, u"test_html_output6.html")
+
+
 class Element(object):
     open_tag = "<>"
     close_tag = "</>"
@@ -47,4 +101,4 @@ file_out.write("<DOCTYPE html>\n")
 Element.render(self, file_out, "")
 
 Body:
-Element.__init__(self, name="body", content=content)
+Element.__init__(self, name="body", content=content)"""
