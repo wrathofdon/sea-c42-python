@@ -10,15 +10,19 @@ Python class example.
 
 
 TAB = "    "
+# Designates standard tab size
 
 class Element(object):
 
     def __init__(self, tag="", content="", indent=0, kwargs={}):
+        # kwargs are necessary to add key value pairs to tags
         self.tag1 = tag
         self.tag2 = tag
+        # separate open and close tags so I can add styles via kwargs
         for name, value in kwargs.items():
             self.tag1 = self.tag1 + ' %s="%s"' % (name, value)
             print(name, value)
+            # if a style is requested, only the first tag is changed
         self.children = [content] if content else []
         self.indent = TAB * indent
 
@@ -41,6 +45,7 @@ class Html(Element):
         Element.__init__(self, "html", content, 0, kwargs)
 
     def render(self, file_out):
+        # HTML needs its own render function to add the "DOCTYPE" tag
         file_out.write("<!DOCTYPE html>")
         file_out.write("\n%s<%s>" % (self.indent, self.tag1))
         for child in self.children:
@@ -72,6 +77,7 @@ class Head(Element):
 class OneLineClass(Element):
 
     def render(self, file_out):
+    # OneLineClass has unique render function to minimize line breaks
         file_out.write("\n%s<%s>%s</%s>" % (self.indent, self.tag1, \
             self.children[0], self.tag2))
 
@@ -86,8 +92,10 @@ class Hr(Element):
 
     def __init__(self):
         Element.__init__(self, "", "", 2)
+        # takes no arguments to avoid letting people muck up the hr/br tag
 
     def render(self, file_out):
+        # unique render function
         file_out.write("\n" + self.indent + "<hr />")
 
 
@@ -103,18 +111,3 @@ class A(OneLineClass):
         kwargs.update({"href": link})
         Element.__init__(self, "a", content, 2, kwargs)
         print("Link")
-
-"""
-
-
-        And this is a
-        <a href="http://google.com">link</a>
-        to google
-
-
-
-body.append(u"And this is a ")
-body.append( hr.A(u"http://google.com", "link") )
-body.append(u"to google")
-
-"""
